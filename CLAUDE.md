@@ -36,7 +36,7 @@ Planned; `brand/` holds the brand files, copied by `scripts/sync-brand.sh`; no p
 2. Never invent brand values. Colours, sizes, radii and durations come from crewbo's `docs/brand/tokens` (`--cb-*` variables); Bo comes from `bo.js` and `bo.css`, never redrawn; a missing value goes to the brand README's open questions and Ronel is asked. The landing page is not designed yet: the brand README says to build it from the brand rules and not to use the old `Landing` canvas board.
 3. Brand files are copied from crewbo unchanged, by a sync script (added with the site), never edited here.
 4. No trackers, analytics, cookies, third-party scripts or fonts loaded from Google or any CDN: everything is served from this repository.
-5. Accessibility first: text contrast at least 4.5:1, every meaningful image has alt text, Bo's animation stops for `prefers-reduced-motion`, works with a keyboard, at phone width (16 px side gutter, no horizontal scroll) and desktop width, light and dark.
+5. Accessibility first: text contrast at least 4.5:1, every meaningful image has alt text, Bo's animation stops for `prefers-reduced-motion`, works with a keyboard, at phone width (16 px side gutter, no horizontal scroll) and desktop width. The site is light only, whatever the visitor's system setting (Ronel, 2026-10-20).
 6. No AI or tool attribution in commits, pull requests or comments: no `Co-Authored-By`, no "Generated with", no session links (`Claude-Session:` or claude.ai URLs), no emoji.
 7. Copy follows Crewbo's voice (`docs/brand/08-voice.md`): sentence case, no exclamation marks, no em dashes, no marketing adjectives, name the file, person and agent.
 8. Stop and ask Ronel before: changing repository or Pages settings, the custom domain or DNS, adding any dependency or build step, or publishing anything new.
@@ -46,7 +46,7 @@ Planned; `brand/` holds the brand files, copied by `scripts/sync-brand.sh`; no p
 - Trunk-based; branch per change: `<type>/<short-kebab-description>`; Ronel reviews and merges. Never push to `main` or force-push a shared branch.
 - Conventional Commits 1.0.0: `<type>(<scope>): <imperative lower-case summary>`, body explains why, footer `Refs: crewbo/crewbo#N`.
 - Types: feat, fix, docs, chore, style. Scopes: page, brand, assets, docs.
-- Every pull request: the template's checklist, with screenshots at phone and desktop widths in light and dark.
+- Every pull request: the template's checklist, with screenshots at phone and desktop widths.
 
 ## Known facts
 

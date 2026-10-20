@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Crewbo · Every agent, one crew</title>
 <meta name="description" content="Crewbo lets each teammate run their own coding agent (Claude Code, Codex or Antigravity) on the same repository without the agents overwriting each other's work. Open source.">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
 <meta property="og:title" content="Crewbo · Every agent, one crew">
 <meta property="og:description" content="Your team's coding agents, working in parallel without collisions.">
 <meta property="og:image" content="brand/assets/png/social-preview-1280x640.png">
@@ -24,7 +24,6 @@
 <header class="nav">
   <a class="brand" href="#top" aria-label="Crewbo, back to the top">
     <picture>
-      <source srcset="brand/assets/svg/logo/lockup-dark.svg" media="(prefers-color-scheme: dark)">
       <img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30">
     </picture>
   </a>
@@ -48,47 +47,56 @@
     <p class="meta">Claude Code, Codex and Antigravity · Linux, macOS and Windows</p>
 
     <figure class="demo" id="demo" data-step="1" aria-describedby="demo-caption">
-      <div class="window" aria-hidden="true">
-        <div class="chrome"><span></span><span></span><span></span><div class="tab">auth.go</div><div class="tab dim">token.go</div></div>
-        <div class="explorer">
-          <p class="label">Explorer</p>
-          <p>src/</p>
-          <p class="file active">auth.go <b class="initials" data-who>RI</b></p>
-          <p class="file">token.go</p>
-          <p class="file">limits.go</p>
-          <p>go.mod</p>
+      <div class="ide" aria-hidden="true">
+        <div class="titlebar">
+          <img src="brand/assets/svg/logo/mark-black.svg" alt="" width="16" height="16">
+          <span>File</span><span>Edit</span><span>Selection</span><span>View</span><span>Go</span><span>Run</span><span>···</span>
+          <div class="command">hackathon-app</div>
+        </div>
+        <div class="activity">
+          <svg class="ic" viewBox="0 0 24 24" width="24" height="24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg><svg class="ic" viewBox="0 0 24 24" width="24" height="24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><svg class="ic" viewBox="0 0 24 24" width="24" height="24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="9" r="2"/><path d="M6 7v10M18 11c0 4-6 3-11.5 6.5"/></svg><svg class="ic" viewBox="0 0 24 24" width="24" height="24"><path d="M8 5l11 7-11 7z"/></svg><svg class="ic" viewBox="0 0 24 24" width="24" height="24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><path d="M13 7.5h7M16.5 4v7"/></svg>
+          <i class="ic crewbo"><img src="brand/assets/svg/logo/mark-black.svg" alt="" width="22" height="22"></i>
+        </div>
+        <div class="sidebar">
+          <p class="viewtitle">Crewbo: Crew</p>
+          <div class="panel">
+            <p class="head">CREW · hackathon-team</p>
+            <div class="row" data-row="ronel"><span class="bo-slot" data-bo></span><div class="text"><span class="name">ronel (you)</span><span class="status" data-status>Idle</span><span class="agent" style="--base: var(--cb-color-team-cobalt-base)">Claude Code</span></div></div>
+            <div class="row" data-row="riya"><span class="bo-slot" data-bo></span><div class="text"><span class="name">riya</span><span class="status" data-status>Writing auth.go</span><span class="agent" style="--base: var(--cb-color-team-teal-base)">Codex</span></div></div>
+            <div class="row" data-row="arjun"><span class="bo-slot" data-bo></span><div class="text"><span class="name">arjun</span><span class="status">Idle</span><span class="agent" style="--base: var(--cb-color-team-ember-base)">Antigravity</span></div></div>
+            <div class="row" data-row="meera"><span class="bo-slot" data-bo></span><div class="text"><span class="name">meera</span><span class="status">Offline since 9:40 pm</span></div></div>
+          </div>
         </div>
         <div class="editor">
-          <p><i>1</i><span class="kw">package</span> auth <span class="tag" data-tag>riya · Codex</span></p>
-          <p><i>2</i></p>
-          <p><i>3</i><span class="kw">import</span> <span class="str">"time"</span></p>
-          <p><i>4</i></p>
-          <p><i>5</i><span class="cm">// Session holds a signed-in user.</span></p>
-          <p><i>6</i><span class="kw">type</span> Session <span class="kw">struct</span> {</p>
-          <p><i>7</i>    UserID  string</p>
-          <p><i>8</i>    Expires time.Time</p>
-          <p><i>9</i>}</p>
-          <p><i>10</i></p>
-          <p><i>11</i><span class="kw">func</span> (s *Session) Valid() bool {</p>
-          <p><i>12</i>    <span class="kw">return</span> time.Now().Before(s.Expires)</p>
-          <p><i>13</i>}</p>
+          <div class="tabs"><span class="tab active">auth.go <b data-who>RI</b></span><span class="tab">token.go</span></div>
+          <div class="code">
+            <p><i>1</i><span class="k">package</span> auth<span class="tag" data-tag>riya · Codex</span></p>
+            <p><i>2</i></p>
+            <p><i>3</i><span class="k">import</span> <span class="s">"time"</span></p>
+            <p><i>4</i></p>
+            <p><i>5</i><span class="c">// Session holds a signed-in user.</span></p>
+            <p><i>6</i><span class="k">type</span> Session <span class="k">struct</span> {</p>
+            <p><i>7</i>    UserID  <span class="k">string</span></p>
+            <p><i>8</i>    Expires time.Time</p>
+            <p><i>9</i>}</p>
+            <p><i>10</i></p>
+            <p><i>11</i><span class="k">func</span> (s *Session) <span class="f">Valid</span>() <span class="k">bool</span> {</p>
+            <p><i>12</i>    <span class="k">return</span> time.<span class="f">Now</span>().<span class="f">Before</span>(s.Expires)</p>
+            <p><i>13</i>}</p>
+          </div>
         </div>
-        <div class="crew">
-          <p class="label">Crew · hackathon-team</p>
-          <div class="row" data-row="ronel"><span class="bo-slot" data-bo></span><div><b>ronel (you)</b><span data-status>Idle</span><code style="--tint: var(--cb-color-team-cobalt-tint)">Claude Code</code></div></div>
-          <div class="row" data-row="riya"><span class="bo-slot" data-bo></span><div><b>riya</b><span data-status>Writing auth.go</span><code style="--tint: var(--cb-color-team-teal-tint)">Codex</code></div></div>
-          <div class="row" data-row="arjun"><span class="bo-slot" data-bo></span><div><b>arjun</b><span>Idle</span><code style="--tint: var(--cb-color-team-ember-tint)">Antigravity</code></div></div>
-          <div class="row" data-row="meera"><span class="bo-slot" data-bo></span><div><b>meera</b><span>Offline since 9:40 pm</span></div></div>
+        <div class="agentbar">
+          <p class="viewtitle">Claude Code</p>
+          <div class="chat">
+            <p class="msg you">Add a session timeout to src/auth.go</p>
+            <div class="msg bot" data-reply="2"><p class="tool">Edit src/auth.go</p><p class="out">src/auth.go is claimed by riya's agent until at least 15:04 (Crewbo). Work on other files, or ask them to hand it over: crewbo claim request src/auth.go</p></div>
+            <div class="msg bot" data-reply="3"><p>riya's Codex holds that file. I'll ask for it.</p><p class="tool">Bash crewbo claim request src/auth.go</p><p class="out">Asked riya to hand over src/auth.go.</p></div>
+            <div class="msg bot" data-reply="4"><p>riya handed it over. Adding the timeout now.</p><p class="tool">Edit src/auth.go</p></div>
+          </div>
         </div>
-        <div class="agent">
-          <p class="label">Claude Code · ronel</p>
-          <p class="you">Add a session timeout to src/auth.go</p>
-          <p class="reply" data-reply="2">src/auth.go is claimed by riya's agent until at least 15:04 (Crewbo). Work on other files, or ask them to hand it over: crewbo claim request src/auth.go</p>
-          <p class="reply cmd" data-reply="3">$ crewbo claim request src/auth.go<br>Asked riya to hand over src/auth.go.</p>
-          <p class="reply" data-reply="4">riya handed over src/auth.go. Adding the timeout now.</p>
-        </div>
+        <div class="statusbar"><span class="remote">&gt;&lt;</span><span data-bar>crewbo  1 claimed · 0 handoff · 0 conflicts</span></div>
       </div>
-      <figcaption id="demo-caption">What Crewbo does today: riya's Codex is writing <code>src/auth.go</code>; ronel's Claude Code is stopped before it edits the same file and told who holds it; ronel's agent asks for the file, riya hands it over, and the agent carries on.</figcaption>
+      <figcaption id="demo-caption">The Crewbo IDE, as ronel sees it: riya's Codex is writing <code>src/auth.go</code>; ronel's Claude Code is stopped before it edits the same file and told who holds it; it asks for the file, riya hands it over, and it carries on.</figcaption>
     </figure>
   </section>
 
@@ -196,7 +204,6 @@ bin/crewbo daemon</code></pre>
     <a href="https://github.com/crewbo/crewbo/issues">Issues</a>
   </div>
   <picture class="wordmark" aria-hidden="true">
-    <source srcset="brand/assets/svg/logo/lockup-dark.svg" media="(prefers-color-scheme: dark)">
     <img src="brand/assets/svg/logo/lockup-light.svg" alt="">
   </picture>
   <p class="fine">Crewbo is open source under the Apache License 2.0. Claude Code, Codex and Antigravity are their owners' products; Crewbo is not affiliated with them.</p>
