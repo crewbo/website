@@ -63,6 +63,9 @@ function drawRow(row, input, colorIndex, status, agent) {
 for (const el of document.querySelectorAll("[data-scene]")) {
   el.innerHTML = sceneSVG({ scene: el.dataset.scene, color: color(el.dataset.color ?? 0), size: Number(el.dataset.size ?? 64) });
 }
+for (const el of document.querySelectorAll(".how-item [data-state]")) {
+  el.innerHTML = boSVG({ state: el.dataset.state, color: color(el.dataset.color), size: Number(el.dataset.size ?? 48), theme: "light" });
+}
 
 const idle = { online: true, activity: "none" };
 const writing = { online: true, activity: "editing" };
@@ -85,6 +88,19 @@ const asleep = { online: false };
   const bar = ["crewbo  1 claimed · 0 handoff · 0 conflicts", "crewbo  1 claimed · 0 handoff · 0 conflicts", "crewbo  1 claimed · 1 handoff · 0 conflicts", "crewbo  1 claimed · 0 handoff · 0 conflicts"];
   const tag = demo.querySelector("[data-tag]");
   tag.style.setProperty("--tag-base", teamColor(1).base);
+  // Subtitles, in plain words, like a video's.
+  const cap = demo.querySelector("[data-cap]");
+  const lines = [
+    "riya's Codex is editing auth.go.",
+    "ronel's Claude Code tries to edit it too. Crewbo stops it and says who has the file.",
+    "ronel's agent asks riya for the file.",
+    "riya hands it over, and ronel's agent carries on.",
+  ];
+  const subtitle = (step) => {
+    if (reduce) { cap.textContent = lines[step]; return; }
+    cap.classList.add("swap");
+    setTimeout(() => { cap.textContent = lines[step]; cap.classList.remove("swap"); }, 150);
+  };
   loop(demo, [3500, 3500, 3500, 3500], (step) => {
     demo.dataset.step = String(step + 1);
     for (const [name, m] of Object.entries(members)) {
@@ -93,6 +109,7 @@ const asleep = { online: false };
     tag.hidden = !holder[step];
     demo.querySelector("[data-who]").textContent = holder[step] ? "RI" : "";
     demo.querySelector("[data-bar]").textContent = bar[step];
+    subtitle(step);
   }, 1);
 }
 
@@ -215,70 +232,51 @@ function stepped(clip, step) {
   }, 1);
 }
 
-// The hero desktop: drag any window or sticker; hovering one spotlights it
-// (the rest fades) and plays its line of text.
-{
-  const desk = document.getElementById("desk");
-  const hero = desk.closest(".hero");
-  let top = 10;
-  for (const f of desk.querySelectorAll(".float")) {
-    const typed = f.querySelector("[data-type]");
-    let typing;
-    f.addEventListener("mouseenter", () => {
-      f.classList.add("lit");
-      desk.classList.add("spot");
-      hero.classList.add("spot");
-      if (typed && !reduce) {
-        clearInterval(typing);
-        const text = typed.dataset.type;
-        let i = 0;
-        typed.textContent = "";
-        typing = setInterval(() => { typed.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(typing); }, 22);
-      }
-    });
-    f.addEventListener("mouseleave", () => {
-      f.classList.remove("lit");
-      desk.classList.remove("spot");
-      hero.classList.remove("spot");
-      if (typed) { clearInterval(typing); typed.textContent = typed.dataset.type; }
-    });
-    let start;
-    f.addEventListener("pointerdown", (e) => {
-      start = { x: e.clientX, y: e.clientY, ox: parseFloat(f.style.getPropertyValue("--x")) || 0, oy: parseFloat(f.style.getPropertyValue("--y")) || 0 };
-      f.setPointerCapture(e.pointerId);
-      f.classList.add("dragging");
-      f.style.zIndex = String(++top);
-    });
-    f.addEventListener("pointermove", (e) => {
-      if (!start) return;
-      f.style.setProperty("--x", `${start.ox + e.clientX - start.x}px`);
-      f.style.setProperty("--y", `${start.oy + e.clientY - start.y}px`);
-    });
-    const end = () => { start = undefined; f.classList.remove("dragging"); };
-    f.addEventListener("pointerup", end);
-    f.addEventListener("pointercancel", end);
-  }
+// The hero stickers: drag any Bo; it stays where you drop it.
+let stickerTop = 10;
+for (const f of document.querySelectorAll("#desk .float")) {
+  let start;
+  f.addEventListener("pointerdown", (e) => {
+    start = { x: e.clientX, y: e.clientY, ox: parseFloat(f.style.getPropertyValue("--x")) || 0, oy: parseFloat(f.style.getPropertyValue("--y")) || 0 };
+    f.setPointerCapture(e.pointerId);
+    f.classList.add("dragging");
+    f.style.zIndex = String(++stickerTop);
+  });
+  f.addEventListener("pointermove", (e) => {
+    if (!start) return;
+    f.style.setProperty("--x", `${start.ox + e.clientX - start.x}px`);
+    f.style.setProperty("--y", `${start.oy + e.clientY - start.y}px`);
+  });
+  const end = () => { start = undefined; f.classList.remove("dragging"); };
+  f.addEventListener("pointerup", end);
+  f.addEventListener("pointercancel", end);
 }
 
-// Feature rows: the one nearest the middle of the screen is in focus.
+// How it works: the stage shows one item's clip at a time, moving to the
+// next every 7 s; hovering or clicking an item picks it and pauses the cycle.
 {
-  const how = document.getElementById("how");
-  const rows = [...how.querySelectorAll(".feature")];
-  how.classList.add("features-focus");
-  const focus = () => {
-    const mid = innerHeight / 2;
-    let best;
-    let bestD = Infinity;
-    for (const r of rows) {
-      const b = r.getBoundingClientRect();
-      const d = Math.abs(b.top + b.height / 2 - mid);
-      if (d < bestD) { bestD = d; best = r; }
-    }
-    for (const r of rows) r.classList.toggle("focus", r === best);
+  const items = [...document.querySelectorAll(".how-item")];
+  const order = ["claims", "crew", "handoff", "conflict"];
+  let current = 0;
+  let paused = false;
+  const pick = (i) => {
+    current = i;
+    for (const it of items) it.classList.toggle("active", it.dataset.pick === order[i]);
+    for (const c of document.querySelectorAll(".stage-clip")) c.classList.toggle("active", c.dataset.clip === order[i]);
   };
-  addEventListener("scroll", focus, { passive: true });
-  addEventListener("resize", focus);
-  focus();
+  for (const it of items) {
+    const i = order.indexOf(it.dataset.pick);
+    it.addEventListener("mouseenter", () => { paused = true; pick(i); });
+    it.addEventListener("focus", () => { paused = true; pick(i); });
+    it.addEventListener("click", () => pick(i));
+    it.addEventListener("mouseleave", () => { paused = false; });
+  }
+  pick(0);
+  if (!reduce) {
+    let timer;
+    const grid = document.querySelector(".how-grid");
+    whenVisible(grid, () => { timer = setInterval(() => { if (!paused) pick((current + 1) % order.length); }, 7000); }, () => clearInterval(timer));
+  }
 }
 
 // The footer: "crewbo" spelled in the Bo mark. The marks pop in letter by

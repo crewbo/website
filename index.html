@@ -38,30 +38,10 @@
 <main id="main">
   <section class="hero" id="top">
     <div class="desk" id="desk" aria-hidden="true">
-      <div class="float win" data-float="claims" style="left:2%;top:40px;width:250px">
-        <div class="win-bar">Claude Code</div>
-        <div class="win-body"><p class="tiny you">&gt; fix the login bug in src/auth.go</p><p class="tiny mono" data-type="src/auth.go is claimed by riya's agent until at least 15:04 (Crewbo).">src/auth.go is claimed by riya's agent until at least 15:04 (Crewbo).</p></div>
-      </div>
-      <div class="float win" data-float="crew" style="right:2%;top:30px;width:250px">
-        <div class="win-bar">Crewbo: Crew</div>
-        <div class="win-body"><div class="mini-row"><span class="bo-slot" data-scene="writing" data-color="1" data-size="40"></span><div><b>riya</b><span>Writing auth.go</span></div></div></div>
-      </div>
-      <div class="float toastcard" data-float="handoff" style="left:6%;top:300px;width:230px">
-        <p>ronel wants src/auth.go next</p><span class="b1">Hand off</span><span class="b2">Not yet</span>
-      </div>
-      <div class="float win dark" data-float="term" style="right:3%;top:290px;width:290px">
-        <div class="win-bar">Terminal</div>
-        <div class="win-body"><p class="tiny mono">$ crewbo room join YOUR-INVITE-CODE</p><p class="tiny mono dim" data-type="Joined room hackathon-team (lead: ronel, 3 members).">Joined room hackathon-team (lead: ronel, 3 members).</p></div>
-      </div>
-      <div class="float pillbar" data-float="status" style="left:24%;top:8px">crewbo  1 claimed · 1 handoff · 0 conflicts</div>
-      <div class="float win" data-float="tag" style="right:22%;top:0;width:250px">
-        <div class="win-bar">auth.go</div>
-        <div class="win-body"><p class="tiny mono"><span class="k">func</span> <span class="f">Login</span>(user, pass <span class="k">string</span>) <span class="tagmini">riya · Codex</span></p></div>
-      </div>
-      <span class="float sticker" style="left:20%;top:200px" data-scene="writing" data-color="1" data-size="72"></span>
-      <span class="float sticker" style="right:19%;top:190px" data-scene="reading" data-color="0" data-size="72"></span>
-      <span class="float sticker" style="left:15%;top:440px" data-scene="offline" data-size="64"></span>
-      <span class="float sticker" style="right:15%;top:470px"><img src="brand/assets/svg/logo/mark-black.svg" alt="" width="56" height="56"></span>
+      <span class="float sticker" style="left:9%;top:70px" data-scene="writing" data-color="1" data-size="72"></span>
+      <span class="float sticker" style="right:10%;top:60px" data-scene="reading" data-color="0" data-size="72"></span>
+      <span class="float sticker" style="left:3%;top:230px" data-scene="offline" data-size="64"></span>
+      <span class="float sticker" style="right:4%;top:240px"><img src="brand/assets/svg/logo/mark-black.svg" alt="" width="56" height="56"></span>
     </div>
     <p class="eyebrow">Open source · Preview</p>
     <h1>Every agent, one crew.</h1>
@@ -71,43 +51,8 @@
       <a class="button secondary" href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Read the docs</a>
     </div>
 
-    <div class="setup" id="setup">
-      <div class="agents" role="tablist" aria-label="Your agent">
-        <button role="tab" aria-selected="true" aria-controls="cmd" data-agent="claude">Claude Code</button>
-        <button role="tab" aria-selected="false" aria-controls="cmd" data-agent="codex">Codex</button>
-        <button role="tab" aria-selected="false" aria-controls="cmd" data-agent="antigravity">Antigravity</button>
-      </div>
-      <div class="terminal" id="cmd" role="tabpanel">
-        <button class="copy" type="button" data-copy>Copy</button>
-        <pre data-agent-cmd="claude"><code><b>$</b> crewbo login --server https://your-team-server
-<o>Open https://github.com/login/device and enter the code WDJB-MJHT</o>
-<o>Signed in to https://your-team-server as riya. The session is valid until 2026-11-27 15:04.</o>
-<b>$</b> crewbo room join YOUR-INVITE-CODE
-<o>Joined room hackathon-team (lead: ronel, 3 members) for /home/riya/hackathon-app.</o>
-<b>$</b> crewbo hooks install --agent claude-code
-<o>Claude Code: hooks installed in /home/riya/.claude/settings.json</o>
-<b>$</b> claude mcp add --scope user --transport stdio crewbo $(which crewbo) mcp</code></pre>
-        <pre data-agent-cmd="codex" hidden><code><b>$</b> crewbo login --server https://your-team-server
-<o>Open https://github.com/login/device and enter the code WDJB-MJHT</o>
-<o>Signed in to https://your-team-server as riya. The session is valid until 2026-11-27 15:04.</o>
-<b>$</b> crewbo room join YOUR-INVITE-CODE
-<o>Joined room hackathon-team (lead: ronel, 3 members) for /home/riya/hackathon-app.</o>
-<b>$</b> crewbo hooks install --agent codex
-<o>Codex: hooks installed in /home/riya/.codex/hooks.json</o>
-<o>  Codex runs hooks only after you trust them: open Codex, type /hooks and trust the crewbo hooks.</o>
-<b>$</b> codex mcp add crewbo -- $(which crewbo) mcp</code></pre>
-        <pre data-agent-cmd="antigravity" hidden><code><b>$</b> crewbo login --server https://your-team-server
-<o>Open https://github.com/login/device and enter the code WDJB-MJHT</o>
-<o>Signed in to https://your-team-server as riya. The session is valid until 2026-11-27 15:04.</o>
-<b>$</b> crewbo room join YOUR-INVITE-CODE
-<o>Joined room hackathon-team (lead: ronel, 3 members) for /home/riya/hackathon-app.</o>
-<b>$</b> crewbo hooks install --agent antigravity
-<o>Antigravity: hooks installed in /home/riya/.gemini/config/hooks.json</o>
-<o>Antigravity MCP: MCP server installed in /home/riya/.gemini/config/mcp_config.json</o></code></pre>
-      </div>
-    </div>
-
     <figure class="demo" id="demo" data-step="1" aria-describedby="demo-caption">
+      <span class="peek" data-scene="writing" data-color="1" data-size="72" aria-hidden="true"></span>
       <div class="ide" aria-hidden="true">
         <div class="titlebar">
           <img src="brand/assets/svg/logo/mark-black.svg" alt="" width="16" height="16">
@@ -157,6 +102,7 @@
         </div>
         <div class="statusbar"><span class="remote">&gt;&lt;</span><span data-bar>crewbo  1 claimed · 0 handoff · 0 conflicts</span></div>
       </div>
+      <p class="subtitle" data-cap aria-live="off"></p>
       <figcaption id="demo-caption">riya's Codex holds <code>src/auth.go</code>. ronel's Claude Code is stopped, asks, and gets it.</figcaption>
     </figure>
   </section>
@@ -164,10 +110,13 @@
   <section id="how">
     <p class="eyebrow">01 · How it works</p>
     <h2>Built for agents that share a repository.</h2>
-
-    <div class="feature">
-      <div class="copy-col"><h3>Agents check before they edit</h3><p>An agent is stopped before it edits a file another agent holds, and told who has it.</p></div>
-      <div class="clip" data-clip="claims" aria-hidden="true">
+    <div class="how-grid">
+      <div class="how-col">
+        <button class="how-item" type="button" data-pick="claims"><span class="bo-slot" data-state="working" data-color="1" data-size="48"></span><span class="how-text"><b>Agents check before they edit</b><span>An agent is stopped before it edits a file another agent holds, and told who has it.</span></span></button>
+        <button class="how-item" type="button" data-pick="crew"><span class="bo-slot" data-state="idle" data-color="0" data-size="48"></span><span class="how-text"><b>See your crew, live</b><span>Who is online, what each agent is writing, who is asleep.</span></span></button>
+      </div>
+      <div class="how-stage">
+      <div class="clip stage-clip" data-clip="claims" aria-hidden="true">
         <div class="clip-bar">Claude Code · ronel</div>
         <div class="clip-body">
           <p class="msg you">Fix the login bug in src/auth.go</p>
@@ -176,11 +125,7 @@
           <p class="tool" data-s="3">Edit src/session.go</p>
         </div>
       </div>
-    </div>
-
-    <div class="feature flip">
-      <div class="copy-col"><h3>See your crew, live</h3><p>Who is online, what each agent is writing, who is asleep.</p></div>
-      <div class="clip" data-clip="crew" aria-hidden="true">
+      <div class="clip stage-clip" data-clip="crew" aria-hidden="true">
         <div class="clip-bar">Crewbo: Crew</div>
         <div class="clip-body panel">
           <p class="head">CREW · hackathon-team</p>
@@ -189,11 +134,7 @@
           <div class="row" data-member="meera"><span class="bo-slot" data-bo></span><div class="text"><span class="name">meera</span><span class="status" data-status></span><span class="agent" style="--base: var(--cb-color-team-moss-base)" data-agent></span></div></div>
         </div>
       </div>
-    </div>
-
-    <div class="feature">
-      <div class="copy-col"><h3>Ask for a file, get it in one click</h3><p>The holder sees your request with Hand off and Not yet. No fighting over files.</p></div>
-      <div class="clip" data-clip="handoff" aria-hidden="true">
+      <div class="clip stage-clip" data-clip="handoff" aria-hidden="true">
         <div class="clip-bar">riya's Crewbo IDE</div>
         <div class="clip-body editorish">
           <p><i>1</i><span class="k">package</span> auth</p><p><i>2</i></p><p><i>3</i><span class="k">import</span> <span class="s">"time"</span></p><p><i>4</i></p><p><i>5</i><span class="k">func</span> <span class="f">Login</span>(user, pass <span class="k">string</span>) <span class="k">error</span> {</p>
@@ -201,11 +142,7 @@
           <div class="note done" data-s="3"><p>Handed off src/auth.go to ronel.</p></div>
         </div>
       </div>
-    </div>
-
-    <div class="feature flip">
-      <div class="copy-col"><h3>Catch conflicts before the merge</h3><p>Two tasks that change the same lines show up as a conflict, with the file named.</p></div>
-      <div class="clip" data-clip="conflict" aria-hidden="true">
+      <div class="clip stage-clip" data-clip="conflict" aria-hidden="true">
         <div class="clip-bar">Crewbo: Crew</div>
         <div class="clip-body panel">
           <p class="head">CREW · hackathon-team</p>
@@ -213,8 +150,15 @@
           <div class="row" data-member="riya"><span class="bo-slot" data-bo></span><div class="text"><span class="name">riya</span><span class="status" data-status></span><span class="agent" style="--base: var(--cb-color-team-teal-base)">Codex</span></div></div>
         </div>
       </div>
+      </div>
+      <div class="how-col">
+        <button class="how-item" type="button" data-pick="handoff"><span class="bo-slot" data-state="handoff-right" data-color="3" data-size="48"></span><span class="how-text"><b>Ask for a file, get it in one click</b><span>The holder sees your request with Hand off and Not yet. No fighting over files.</span></span></button>
+        <button class="how-item" type="button" data-pick="conflict"><span class="bo-slot" data-state="conflict" data-color="5" data-size="48"></span><span class="how-text"><b>Catch conflicts before the merge</b><span>Two tasks that change the same lines show up as a conflict, with the file named.</span></span></button>
+      </div>
     </div>
   </section>
+
+  <div class="chapter" aria-hidden="true"><span data-scene="reading" data-color="0" data-size="96"></span></div>
 
   <section id="private">
     <p class="eyebrow">02 · Private by design</p>
@@ -236,9 +180,46 @@
     </div>
   </section>
 
+  <div class="chapter" aria-hidden="true"><span data-scene="writing" data-color="3" data-size="96"></span></div>
+
   <section id="get">
     <p class="eyebrow">04 · Get Crewbo</p>
-    <h2>Pick how you work.</h2>
+    <h2>Set up in about 15 minutes.</h2>
+    <div class="setup" id="setup">
+      <div class="agents" role="tablist" aria-label="Your agent">
+        <button role="tab" aria-selected="true" aria-controls="cmd" data-agent="claude">Claude Code</button>
+        <button role="tab" aria-selected="false" aria-controls="cmd" data-agent="codex">Codex</button>
+        <button role="tab" aria-selected="false" aria-controls="cmd" data-agent="antigravity">Antigravity</button>
+      </div>
+      <div class="terminal" id="cmd" role="tabpanel">
+        <button class="copy" type="button" data-copy>Copy</button>
+        <pre data-agent-cmd="claude"><code><b>$</b> crewbo login --server https://your-team-server
+<o>Open https://github.com/login/device and enter the code WDJB-MJHT</o>
+<o>Signed in to https://your-team-server as riya. The session is valid until 2026-11-27 15:04.</o>
+<b>$</b> crewbo room join YOUR-INVITE-CODE
+<o>Joined room hackathon-team (lead: ronel, 3 members) for /home/riya/hackathon-app.</o>
+<b>$</b> crewbo hooks install --agent claude-code
+<o>Claude Code: hooks installed in /home/riya/.claude/settings.json</o>
+<b>$</b> claude mcp add --scope user --transport stdio crewbo $(which crewbo) mcp</code></pre>
+        <pre data-agent-cmd="codex" hidden><code><b>$</b> crewbo login --server https://your-team-server
+<o>Open https://github.com/login/device and enter the code WDJB-MJHT</o>
+<o>Signed in to https://your-team-server as riya. The session is valid until 2026-11-27 15:04.</o>
+<b>$</b> crewbo room join YOUR-INVITE-CODE
+<o>Joined room hackathon-team (lead: ronel, 3 members) for /home/riya/hackathon-app.</o>
+<b>$</b> crewbo hooks install --agent codex
+<o>Codex: hooks installed in /home/riya/.codex/hooks.json</o>
+<o>  Codex runs hooks only after you trust them: open Codex, type /hooks and trust the crewbo hooks.</o>
+<b>$</b> codex mcp add crewbo -- $(which crewbo) mcp</code></pre>
+        <pre data-agent-cmd="antigravity" hidden><code><b>$</b> crewbo login --server https://your-team-server
+<o>Open https://github.com/login/device and enter the code WDJB-MJHT</o>
+<o>Signed in to https://your-team-server as riya. The session is valid until 2026-11-27 15:04.</o>
+<b>$</b> crewbo room join YOUR-INVITE-CODE
+<o>Joined room hackathon-team (lead: ronel, 3 members) for /home/riya/hackathon-app.</o>
+<b>$</b> crewbo hooks install --agent antigravity
+<o>Antigravity: hooks installed in /home/riya/.gemini/config/hooks.json</o>
+<o>Antigravity MCP: MCP server installed in /home/riya/.gemini/config/mcp_config.json</o></code></pre>
+      </div>
+    </div>
     <div class="cards three">
       <article class="card"><h3>CLI</h3><p>Build from source until the first release.</p><pre><code>git clone https://github.com/crewbo/crewbo
 cd crewbo
@@ -261,6 +242,7 @@ task build</code></pre></article>
 </main>
 
 <footer>
+  <a class="foot-logo" href="#top" aria-label="Crewbo, back to the top"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="160" height="40"></a>
   <div class="links">
     <a href="https://github.com/crewbo/crewbo">GitHub</a>
     <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Getting started</a>
@@ -268,9 +250,6 @@ task build</code></pre></article>
     <a href="https://github.com/crewbo/crewbo/issues">Issues</a>
   </div>
   <div class="bo-word" id="boword" aria-hidden="true"></div>
-  <picture class="wordmark" aria-hidden="true">
-    <img src="brand/assets/svg/logo/lockup-light.svg" alt="">
-  </picture>
   <p class="fine">Crewbo is open source under the Apache License 2.0. Claude Code, Codex and Antigravity are their owners' products; Crewbo is not affiliated with them.</p>
 </footer>
 </body>
