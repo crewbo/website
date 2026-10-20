@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crewbo · Every agent, one crew</title>
+<meta name="description" content="Crewbo lets each teammate run their own coding agent (Claude Code, Codex or Antigravity) on the same repository without the agents overwriting each other's work. Open source.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Crewbo · Every agent, one crew">
+<meta property="og:description" content="Your team's coding agents, working in parallel without collisions.">
+<meta property="og:image" content="brand/assets/png/social-preview-1280x640.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="brand/assets/png/favicon.ico" sizes="any">
+<link rel="icon" href="brand/assets/svg/logo/mark-black.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/assets/png/apple-touch-icon-180.png">
+<link rel="stylesheet" href="brand/tokens/tokens.css">
+<link rel="stylesheet" href="brand/reference/component/bo.css">
+<link rel="stylesheet" href="site.css">
+<script type="module" src="site.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <a class="brand" href="#top" aria-label="Crewbo, back to the top">
+    <picture>
+      <source srcset="brand/assets/svg/logo/lockup-dark.svg" media="(prefers-color-scheme: dark)">
+      <img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30">
+    </picture>
+  </a>
+  <nav aria-label="Main">
+    <a href="#how">How it works</a>
+    <a href="#install">Install</a>
+    <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Docs</a>
+    <a href="https://github.com/crewbo/crewbo">GitHub</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <p class="eyebrow">Open source · Preview</p>
+    <h1>Every agent, one crew.</h1>
+    <p class="lede">Your team's coding agents, working in parallel without collisions. Each teammate runs their own agent on the same repository; Crewbo stops an agent before it edits a file someone else's agent is working on, and shows everyone who is doing what.</p>
+    <div class="actions">
+      <a class="button primary" href="#install-ide">Get the Crewbo IDE</a>
+      <a class="button secondary" href="#install-extension">Install the extension</a>
+    </div>
+    <p class="meta">Claude Code, Codex and Antigravity · Linux, macOS and Windows</p>
+
+    <figure class="demo" id="demo" data-step="1" aria-describedby="demo-caption">
+      <div class="window" aria-hidden="true">
+        <div class="chrome"><span></span><span></span><span></span><div class="tab">auth.go</div><div class="tab dim">token.go</div></div>
+        <div class="explorer">
+          <p class="label">Explorer</p>
+          <p>src/</p>
+          <p class="file active">auth.go <b class="initials" data-who>RI</b></p>
+          <p class="file">token.go</p>
+          <p class="file">limits.go</p>
+          <p>go.mod</p>
+        </div>
+        <div class="editor">
+          <p><i>1</i><span class="kw">package</span> auth <span class="tag" data-tag>riya · Codex</span></p>
+          <p><i>2</i></p>
+          <p><i>3</i><span class="kw">import</span> <span class="str">"time"</span></p>
+          <p><i>4</i></p>
+          <p><i>5</i><span class="cm">// Session holds a signed-in user.</span></p>
+          <p><i>6</i><span class="kw">type</span> Session <span class="kw">struct</span> {</p>
+          <p><i>7</i>    UserID  string</p>
+          <p><i>8</i>    Expires time.Time</p>
+          <p><i>9</i>}</p>
+          <p><i>10</i></p>
+          <p><i>11</i><span class="kw">func</span> (s *Session) Valid() bool {</p>
+          <p><i>12</i>    <span class="kw">return</span> time.Now().Before(s.Expires)</p>
+          <p><i>13</i>}</p>
+        </div>
+        <div class="crew">
+          <p class="label">Crew · hackathon-team</p>
+          <div class="row" data-row="ronel"><span class="bo-slot" data-bo></span><div><b>ronel (you)</b><span data-status>Idle</span><code style="--tint: var(--cb-color-team-cobalt-tint)">Claude Code</code></div></div>
+          <div class="row" data-row="riya"><span class="bo-slot" data-bo></span><div><b>riya</b><span data-status>Writing auth.go</span><code style="--tint: var(--cb-color-team-teal-tint)">Codex</code></div></div>
+          <div class="row" data-row="arjun"><span class="bo-slot" data-bo></span><div><b>arjun</b><span>Idle</span><code style="--tint: var(--cb-color-team-ember-tint)">Antigravity</code></div></div>
+          <div class="row" data-row="meera"><span class="bo-slot" data-bo></span><div><b>meera</b><span>Offline since 9:40 pm</span></div></div>
+        </div>
+        <div class="agent">
+          <p class="label">Claude Code · ronel</p>
+          <p class="you">Add a session timeout to src/auth.go</p>
+          <p class="reply" data-reply="2">src/auth.go is claimed by riya's agent until at least 15:04 (Crewbo). Work on other files, or ask them to hand it over: crewbo claim request src/auth.go</p>
+          <p class="reply cmd" data-reply="3">$ crewbo claim request src/auth.go<br>Asked riya to hand over src/auth.go.</p>
+          <p class="reply" data-reply="4">riya handed over src/auth.go. Adding the timeout now.</p>
+        </div>
+      </div>
+      <figcaption id="demo-caption">What Crewbo does today: riya's Codex is writing <code>src/auth.go</code>; ronel's Claude Code is stopped before it edits the same file and told who holds it; ronel's agent asks for the file, riya hands it over, and the agent carries on.</figcaption>
+    </figure>
+  </section>
+
+  <div class="interlude" aria-hidden="true"><span data-scene="writing" data-color="1"></span><span data-scene="reading" data-color="0"></span><span data-scene="testing" data-color="3"></span></div>
+
+  <section id="how">
+    <p class="eyebrow">01 · How it works</p>
+    <h2>Each agent knows what the others are working on.</h2>
+    <p class="intro">In a team project, usually one person drives the agent while everyone else waits, or every agent edits the same files and the team finds out at merge time. With Crewbo, everyone runs their own agent, on their own machine and operating system, on the same repository.</p>
+    <div class="cards">
+      <article class="card">
+        <span class="bo-slot" data-state="working" data-color="1"></span>
+        <h3>Claims, checked before every edit</h3>
+        <p>When an agent starts on a file, it holds a claim on it. A small daemon on each computer answers the agent's own hooks, so another agent that tries to edit the file is stopped and told who has it.</p>
+      </article>
+      <article class="card">
+        <span class="bo-slot" data-scene="reading" data-color="0"></span>
+        <h3>Your crew, next to the code</h3>
+        <p>The crew panel shows each teammate, whether they are online, and what their agent is doing. A file a teammate holds says so at the end of its first line.</p>
+      </article>
+      <article class="card">
+        <span class="bo-slot" data-state="handoff-right" data-color="3"></span>
+        <h3>Handoffs, not collisions</h3>
+        <p>Need a file someone else holds? Ask for it. They get <em>Hand off</em> and <em>Not yet</em>, and the lead can step in. Two agents wanting the same file is a handoff, not an error.</p>
+      </article>
+      <article class="card">
+        <span class="bo-slot" data-state="conflict" data-color="5"></span>
+        <h3>Conflicts before anyone merges</h3>
+        <p>Teammates' tasks are checked against each other with git, so two branches that change the same lines show up as a conflict before the merge, with the files named.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="works">
+    <p class="eyebrow">02 · Works with</p>
+    <h2>Your agent, your editor, your computer.</h2>
+    <div class="columns">
+      <div><h3>Agents</h3><ul><li>Claude Code</li><li>Codex</li><li>Antigravity</li></ul></div>
+      <div><h3>Editors</h3><ul><li>VS Code and editors built on it, with the Crewbo extension</li><li>The Crewbo IDE (preview), with Crewbo built in</li><li>Any terminal, with the <code>crewbo</code> command</li></ul></div>
+      <div><h3>Systems</h3><ul><li>Linux</li><li>macOS</li><li>Windows</li></ul></div>
+    </div>
+  </section>
+
+  <section id="open" class="open">
+    <p class="eyebrow">03 · Open source</p>
+    <h2>Your code never leaves your computer.</h2>
+    <p class="intro">Crewbo never sends the contents of your files anywhere, and it sends no telemetry. Code moves only through your own git remote. Your team runs its own sync server, and the code is open source.</p>
+    <div class="cards two">
+      <article class="card">
+        <h3>What your sync server sees</h3>
+        <ul><li>Your GitHub login, computer name and OS</li><li>File paths and how long a claim lasts</li><li>Task text, branch names and commit ids</li><li>Which agent is working, and on which file</li><li>Who is online in the room</li></ul>
+      </article>
+      <article class="card">
+        <h3>What never leaves your computer</h3>
+        <ul><li>The contents of your files</li><li>Your device's private key</li><li>Task worktrees and run logs</li><li>Usage data: there is none</li></ul>
+      </article>
+    </div>
+    <p class="more"><a href="https://github.com/crewbo/crewbo/blob/main/docs/user/privacy.md">Everything Crewbo shares and stores</a></p>
+  </section>
+
+  <section id="install">
+    <p class="eyebrow">04 · Install</p>
+    <h2>Set up in about 15 minutes.</h2>
+    <p class="intro">You need git 2.38 or later, one agent (Claude Code, Codex or Antigravity) and a GitHub account. The first release is planned for about 22 November 2026; until then, build Crewbo from source.</p>
+    <div class="steps">
+      <article class="card" id="install-cli">
+        <h3>1. The <code>crewbo</code> command</h3>
+        <p>Until the first release, with Go and Task:</p>
+        <pre><code>git clone https://github.com/crewbo/crewbo
+cd crewbo
+task build
+bin/crewbo daemon</code></pre>
+      </article>
+      <article class="card" id="install-extension">
+        <h3>2. The editor extension</h3>
+        <p>The crew panel, claims and handoffs in VS Code and editors built on it. With the first release it comes to the Visual Studio Marketplace and Open VSX; until then, install the <code>.vsix</code> you build with <code>task ext:package</code>.</p>
+      </article>
+      <article class="card" id="install-ide">
+        <h3>3. Or the Crewbo IDE <span class="pill">preview</span></h3>
+        <p>An editor with Crewbo built in and the crew panel open from the first start, for Linux, macOS and Windows, with the first release. It uses Open VSX, so extensions only Microsoft publishes are not available.</p>
+      </article>
+    </div>
+    <p class="more"><a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">The full getting started guide</a></p>
+  </section>
+
+  <section id="faq">
+    <p class="eyebrow">05 · Questions</p>
+    <h2>Questions</h2>
+    <div class="faq">
+      <details><summary>What is Crewbo?</summary><p>A coordination layer for teams whose coding agents work on the same repository at the same time. A daemon on each computer enforces file claims through each agent's own hooks, a small sync server shares who holds what, and conflicts between teammates' branches show up before anyone merges.</p></details>
+      <details><summary>Does Crewbo see my code?</summary><p>No. Only paths, task text, branch names, the agent's name and who is online leave your computer, and only to your team's own sync server. The privacy page lists every field.</p></details>
+      <details><summary>Which agents does it work with?</summary><p>Claude Code, Codex and Antigravity. The checks also run when you prompt Claude Code or Codex from their own VS Code extensions.</p></details>
+      <details><summary>Do I need the Crewbo IDE?</summary><p>No. The extension for VS Code and the <code>crewbo</code> command are the main way to use Crewbo. The Crewbo IDE is a preview for teams that want everything in one download.</p></details>
+      <details><summary>What is the sync server?</summary><p>A small server one person on the team runs (<code>crewbo serve</code>). It passes claims, tasks and presence between teammates' daemons. It never receives file contents.</p></details>
+      <details><summary>Is Crewbo open source?</summary><p>Yes. Crewbo is Apache-2.0; the sync server is AGPL-3.0. The source is on GitHub.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="links">
+    <a href="https://github.com/crewbo/crewbo">GitHub</a>
+    <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Getting started</a>
+    <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/privacy.md">Privacy</a>
+    <a href="https://github.com/crewbo/crewbo/issues">Issues</a>
+  </div>
+  <picture class="wordmark" aria-hidden="true">
+    <source srcset="brand/assets/svg/logo/lockup-dark.svg" media="(prefers-color-scheme: dark)">
+    <img src="brand/assets/svg/logo/lockup-light.svg" alt="">
+  </picture>
+  <p class="fine">Crewbo is open source under the Apache License 2.0. Claude Code, Codex and Antigravity are their owners' products; Crewbo is not affiliated with them.</p>
+</footer>
+</body>
+</html>
