@@ -38,10 +38,9 @@
 <main id="main">
   <section class="hero" id="top">
     <div class="desk" id="desk" aria-hidden="true">
-      <span class="float sticker" style="left:9%;top:70px" data-scene="writing" data-color="1" data-size="72"></span>
-      <span class="float sticker" style="right:10%;top:60px" data-scene="reading" data-color="0" data-size="72"></span>
-      <span class="float sticker" style="left:3%;top:230px" data-scene="offline" data-size="64"></span>
-      <span class="float sticker" style="right:4%;top:240px"><img src="brand/assets/svg/logo/mark-black.svg" alt="" width="56" height="56"></span>
+      <span class="float sticker" style="left:12%;top:96px;--r:-6deg" data-scene="writing" data-color="1" data-size="84"></span>
+      <span class="float sticker" style="right:11%;top:150px;--r:5deg" data-scene="reading" data-color="0" data-size="76"></span>
+      <span class="float sticker" style="left:21%;top:300px;--r:3deg" data-scene="offline" data-size="60"></span>
     </div>
     <p class="eyebrow">Open source · Preview</p>
     <h1>Every agent, one crew.</h1>
@@ -52,7 +51,7 @@
     </div>
 
     <figure class="demo" id="demo" data-step="1" aria-describedby="demo-caption">
-      <span class="peek" data-scene="writing" data-color="1" data-size="72" aria-hidden="true"></span>
+      <span class="peek" data-face="nearby" data-color="3" data-size="64" aria-hidden="true"></span>
       <div class="ide" aria-hidden="true">
         <div class="titlebar">
           <img src="brand/assets/svg/logo/mark-black.svg" alt="" width="16" height="16">
@@ -158,8 +157,6 @@
     </div>
   </section>
 
-  <div class="chapter" aria-hidden="true"><span data-scene="reading" data-color="0" data-size="96"></span></div>
-
   <section id="private">
     <p class="eyebrow">02 · Private by design</p>
     <h2>Your code stays on your computer.</h2>
@@ -179,8 +176,6 @@
       <div><p class="eyebrow">Systems</p><p>Linux</p><p>macOS</p><p>Windows</p></div>
     </div>
   </section>
-
-  <div class="chapter" aria-hidden="true"><span data-scene="writing" data-color="3" data-size="96"></span></div>
 
   <section id="get">
     <p class="eyebrow">04 · Get Crewbo</p>
@@ -242,15 +237,17 @@ task build</code></pre></article>
 </main>
 
 <footer>
-  <a class="foot-logo" href="#top" aria-label="Crewbo, back to the top"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="160" height="40"></a>
   <div class="links">
     <a href="https://github.com/crewbo/crewbo">GitHub</a>
     <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Getting started</a>
     <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/privacy.md">Privacy</a>
     <a href="https://github.com/crewbo/crewbo/issues">Issues</a>
   </div>
-  <div class="bo-word" id="boword" aria-hidden="true"></div>
   <p class="fine">Crewbo is open source under the Apache License 2.0. Claude Code, Codex and Antigravity are their owners' products; Crewbo is not affiliated with them.</p>
+  <a class="foot-brand" id="footbrand" href="#top" aria-label="Crewbo, back to the top">
+    <img class="foot-mark" src="brand/assets/svg/logo/mark-black.svg" alt="" width="112" height="112" draggable="false">
+    <span class="bo-word" id="boword" aria-hidden="true"></span>
+  </a>
 </footer>
 </body>
 </html>

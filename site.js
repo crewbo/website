@@ -63,6 +63,9 @@ function drawRow(row, input, colorIndex, status, agent) {
 for (const el of document.querySelectorAll("[data-scene]")) {
   el.innerHTML = sceneSVG({ scene: el.dataset.scene, color: color(el.dataset.color ?? 0), size: Number(el.dataset.size ?? 64) });
 }
+for (const el of document.querySelectorAll("[data-face]")) {
+  el.innerHTML = boSVG({ state: el.dataset.face, color: color(el.dataset.color), size: Number(el.dataset.size ?? 64), theme: "light" });
+}
 for (const el of document.querySelectorAll(".how-item [data-state]")) {
   el.innerHTML = boSVG({ state: el.dataset.state, color: color(el.dataset.color), size: Number(el.dataset.size ?? 48), theme: "light" });
 }
@@ -334,4 +337,22 @@ for (const f of document.querySelectorAll("#desk .float")) {
       }
     }, () => {});
   }
+}
+
+// Footer brand: when it rises, the marks bob once from left to right,
+// using the brand's own merged state, then turn back into the mark.
+{
+  const brand = document.getElementById("footbrand");
+  const marks = [...document.querySelectorAll("#boword [data-col]")];
+  let waving = false;
+  brand.addEventListener("mouseenter", () => {
+    if (reduce || waving) return;
+    waving = true;
+    marks.forEach((m, i) => {
+      const col = Number(m.dataset.col);
+      setTimeout(() => { m.innerHTML = boSVG({ state: "merged", color: color(i % 8), size: 32, theme: "light" }); }, 300 + col * 30);
+      setTimeout(() => { m.innerHTML = markSVG({ size: 32 }); }, 300 + col * 30 + 900);
+    });
+    setTimeout(() => { waving = false; }, 300 + 35 * 30 + 1000);
+  });
 }

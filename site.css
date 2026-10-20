@@ -159,7 +159,7 @@ h3 { font-size: 22px; line-height: 1.3; font-weight: 600; margin: 0 0 var(--cb-s
 .faq details p { color: var(--muted); margin: var(--cb-space-1) 0 0; font-size: 15px; }
 
 /* Footer: the outlined lockup, large */
-footer { margin-top: var(--cb-space-16); padding-bottom: var(--cb-space-6); }
+footer { margin-top: var(--cb-space-16); padding-bottom: 0; }
 footer .links { display: flex; flex-wrap: wrap; gap: var(--cb-space-3); font-size: 15px; padding-top: var(--cb-space-4); border-top: var(--cb-border-width) solid var(--line); }
 footer .links a { color: var(--muted); text-decoration: none; }
 footer .links a:hover { color: var(--fg); }
@@ -265,7 +265,7 @@ footer .links a:hover { color: var(--fg); }
 @media (max-width: 1199px) { .desk, .hero::before { display: none; } .hero > .eyebrow { margin-top: 0; } }
 
 /* Footer: "crewbo" spelled in the Bo mark (experiment, see the PR) */
-.bo-word { display: grid; justify-content: center; margin: var(--cb-space-9) 0 var(--cb-space-4); }
+.bo-word { display: grid; justify-content: center; }
 .bo-word span { display: inline-flex; width: 24px; height: 24px; overflow: visible; align-items: center; justify-content: center; cursor: grab; touch-action: none; }
 .bo-word svg { flex: none; margin: -4px; }
 .bo-word span.on { animation: cb-pop 300ms ease-out both; }
@@ -280,9 +280,10 @@ footer .links a:hover { color: var(--fg); }
 :root { --ease: cubic-bezier(0.22, 1, 0.36, 1); --slow: var(--cb-motion-duration-eventMax); }
 
 /* Hero stickers: Bos to drag, lifting softly on hover */
-.float { position: absolute; display: inline-flex; cursor: grab; touch-action: none; user-select: none; transform: translate(var(--x, 0), var(--y, 0)); transition: transform var(--slow) var(--ease); }
-.float:hover { transform: translate(var(--x, 0), var(--y, 0)) scale(1.08) rotate(-3deg); }
-.float.dragging { cursor: grabbing; transition: none; transform: translate(var(--x, 0), var(--y, 0)) scale(1.08); }
+.float { position: absolute; display: inline-flex; cursor: grab; touch-action: none; user-select: none; -webkit-user-drag: none; transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg)); transition: transform var(--slow) var(--ease); }
+.float svg { pointer-events: none; }
+.float:hover { transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg) scale(1.08); }
+.float.dragging { cursor: grabbing; transition: none; transform: translate(var(--x, 0), var(--y, 0)) rotate(0deg) scale(1.08); }
 
 /* The hero film: a Bo peeking over the window, subtitles like a video */
 .demo { position: relative; }
@@ -300,19 +301,22 @@ footer .links a:hover { color: var(--fg); }
 .how-text { display: flex; flex-direction: column; gap: var(--cb-space-half); font-size: 15px; line-height: 1.5; }
 .how-text b { font-size: 18px; font-weight: 600; }
 .how-text span { color: var(--muted); }
-.how-stage { position: relative; min-height: 340px; }
+.how-stage { position: relative; min-height: 440px; }
 .stage-clip { position: absolute; inset: 0; opacity: 0; transform: translateY(8px) scale(0.98); transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease); }
 .stage-clip.active { opacity: 1; transform: none; }
 
-/* Bo scenes opening a section, like a chapter illustration */
-.chapter { display: flex; justify-content: center; margin: var(--cb-space-12) 0 0; }
-.chapter + section { margin-top: var(--cb-space-3) !important; }
 
-/* Footer: the main logo, then the spelled wordmark */
-.foot-logo { display: inline-block; margin-top: var(--cb-space-12); }
-.foot-logo img { display: block; height: 40px; width: auto; }
-footer { margin-top: 0; }
+/* Footer brand (Ronel's idea): the mark beside "crewbo" spelled in the
+   mark, only the top half showing at the page's bottom edge; hovering
+   raises the whole row and the marks bob once (bo.css's merged bob). */
+.foot-brand { display: flex; align-items: flex-end; justify-content: center; gap: var(--cb-space-4); height: 120px; margin-top: var(--cb-space-9); overflow: hidden; text-decoration: none; transition: height 600ms var(--ease); }
+.foot-brand > * { transform: translateY(48%); transition: transform 600ms var(--ease); }
+.foot-brand:hover, .foot-brand:focus-visible { height: 220px; }
+.foot-brand:hover > *, .foot-brand:focus-visible > * { transform: none; }
+.foot-mark { width: 112px; height: 112px; flex: none; }
+.bo-word { margin: 0; }
 .bo-word span { transition: transform var(--slow) var(--ease); }
 .bo-word span:hover { transform: scale(1.25); }
-@media (prefers-reduced-motion: reduce) { .float, .float:hover, .stage-clip, .subtitle, .how-item, .bo-word span { transition: none; } .float:hover { transform: translate(var(--x, 0), var(--y, 0)); } }
+@media (max-width: 1199px) { .foot-brand { height: auto; justify-content: flex-start; } .foot-brand > * { transform: none; } .foot-mark { width: 56px; height: 56px; } }
+@media (prefers-reduced-motion: reduce) { .float, .float:hover, .stage-clip, .subtitle, .how-item, .bo-word span, .foot-brand, .foot-brand > * { transition: none; } .float:hover { transform: translate(var(--x, 0), var(--y, 0)); } }
 @media (max-width: 720px) { .peek { display: none; } .subtitle { position: static; transform: none; margin: var(--cb-space-2) auto 0; display: block; width: fit-content; } }
