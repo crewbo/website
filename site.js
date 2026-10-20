@@ -3,7 +3,7 @@
 // films: the hero, the setup terminal, one clip per feature, and the crew
 // in the footer. Each runs only while it is on screen and the tab is
 // visible; with reduced motion each shows one still, meaningful frame.
-import { boSVG, markSVG, panelView, sceneSVG, teamColor } from "./brand/reference/component/bo.js";
+import { INK, boSVG, markSVG, panelView, sceneSVG, teamColor } from "./brand/reference/component/bo.js";
 
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const color = (i) => teamColor(Number(i)).base;
@@ -265,8 +265,17 @@ for (const f of document.querySelectorAll("#desk .float")) {
   const pick = (i) => {
     current = i;
     for (const it of items) it.classList.toggle("active", it.dataset.pick === order[i]);
-    for (const c of document.querySelectorAll(".stage-clip")) c.classList.toggle("active", c.dataset.clip === order[i]);
+    let shown;
+    for (const c of document.querySelectorAll(".stage-clip")) {
+      const on = c.dataset.clip === order[i];
+      c.classList.toggle("active", on);
+      if (on) shown = c;
+    }
+    // The stage takes the shown clip's height, so short clips leave no gap.
+    const stage = document.querySelector(".how-stage");
+    stage.style.height = `${shown.offsetHeight}px`;
   };
+  addEventListener("resize", () => pick(current));
   for (const it of items) {
     const i = order.indexOf(it.dataset.pick);
     it.addEventListener("mouseenter", () => { paused = true; pick(i); });
@@ -339,20 +348,12 @@ for (const f of document.querySelectorAll("#desk .float")) {
   }
 }
 
-// Footer brand: when it rises, the marks bob once from left to right,
-// using the brand's own merged state, then turn back into the mark.
+// Footer brand: as the row rises, the main mark turns into Bo (ink, the
+// brand Bo's colour) for one bob, the brand's merged state, and back.
 {
   const brand = document.getElementById("footbrand");
-  const marks = [...document.querySelectorAll("#boword [data-col]")];
-  let waving = false;
-  brand.addEventListener("mouseenter", () => {
-    if (reduce || waving) return;
-    waving = true;
-    marks.forEach((m, i) => {
-      const col = Number(m.dataset.col);
-      setTimeout(() => { m.innerHTML = boSVG({ state: "merged", color: color(i % 8), size: 32, theme: "light" }); }, 300 + col * 30);
-      setTimeout(() => { m.innerHTML = markSVG({ size: 32 }); }, 300 + col * 30 + 900);
-    });
-    setTimeout(() => { waving = false; }, 300 + 35 * 30 + 1000);
-  });
+  const bo = brand.querySelector(".as-bo");
+  const draw = (state) => { bo.innerHTML = boSVG({ state, color: INK, size: 168, theme: "light" }); };
+  draw("idle");
+  brand.addEventListener("mouseenter", () => draw(reduce ? "idle" : "merged"));
 }

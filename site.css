@@ -39,7 +39,9 @@ code, pre { font-family: var(--cb-font-family-mono); }
 /* Navigation */
 .nav { display: flex; align-items: center; justify-content: space-between; gap: var(--cb-space-3); max-width: 1440px; margin: 0 auto; padding: var(--cb-space-3) var(--gutter); }
 .brand img { display: block; height: 30px; width: auto; }
-.nav nav { display: flex; gap: var(--cb-space-3); font-size: 15px; }
+.nav nav { display: flex; gap: var(--cb-space-4); font-size: 15px; margin: 0 auto; }
+.nav-cta { display: flex; gap: var(--cb-space-1); }
+.button.small { height: 36px; padding: 0 14px; font-size: 14px; border-radius: var(--cb-radius-controlSm); }
 .nav nav a { text-decoration: none; color: var(--muted); }
 .nav nav a:hover { color: var(--fg); }
 
@@ -174,7 +176,8 @@ footer .links a:hover { color: var(--fg); }
 @media (max-width: 720px) {
   :root { --gutter: var(--cb-space-2); }
   body { font-size: 16px; }
-  .nav nav a:not([href^="https"]) { display: none; }
+  .nav nav { display: none; }
+  .nav-cta .secondary { display: none; }
   /* type.h2 for both; phone sizes are an open question for the brand */
   h1 { font-size: 44px; letter-spacing: -1.2px; }
   main > section + section { margin-top: var(--cb-space-12); }
@@ -227,7 +230,7 @@ footer .links a:hover { color: var(--fg); }
   .terminal .cursor { display: none; }
 }
 
-.clip { border: 1px solid var(--cb-color-gray-200); border-radius: 12px; overflow: hidden; background: var(--cb-color-paper); min-height: 300px; display: flex; flex-direction: column; }
+.clip { border: 1px solid var(--cb-color-gray-200); border-radius: 12px; overflow: hidden; background: var(--cb-color-paper); display: flex; flex-direction: column; }
 .clip-bar { height: 32px; display: flex; align-items: center; padding: 0 14px; background: var(--cb-color-gray-100); border-bottom: 1px solid var(--cb-color-gray-200); font-size: 13px; font-weight: 600; }
 .clip-body { flex: 1; padding: var(--cb-space-2); display: flex; flex-direction: column; gap: 10px; font-size: 13px; position: relative; }
 .clip-body .msg.you { align-self: flex-end; padding: 8px 12px; background: var(--cb-color-gray-100); border-radius: 10px; margin: 0; }
@@ -301,22 +304,47 @@ footer .links a:hover { color: var(--fg); }
 .how-text { display: flex; flex-direction: column; gap: var(--cb-space-half); font-size: 15px; line-height: 1.5; }
 .how-text b { font-size: 18px; font-weight: 600; }
 .how-text span { color: var(--muted); }
-.how-stage { position: relative; min-height: 440px; }
-.stage-clip { position: absolute; inset: 0; opacity: 0; transform: translateY(8px) scale(0.98); transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease); }
-.stage-clip.active { opacity: 1; transform: none; }
+.how-stage { display: grid; align-items: start; box-sizing: content-box; transition: height var(--slow) var(--ease); overflow: hidden; }
+.how-stage > .stage-clip { grid-area: 1 / 1; }
+.stage-clip { position: relative; opacity: 0; pointer-events: none; transform: translateY(8px) scale(0.98); transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease); }
+.stage-clip.active { opacity: 1; transform: none; pointer-events: auto; }
 
 
 /* Footer brand (Ronel's idea): the mark beside "crewbo" spelled in the
-   mark, only the top half showing at the page's bottom edge; hovering
-   raises the whole row and the marks bob once (bo.css's merged bob). */
-.foot-brand { display: flex; align-items: flex-end; justify-content: center; gap: var(--cb-space-4); height: 120px; margin-top: var(--cb-space-9); overflow: hidden; text-decoration: none; transition: height 600ms var(--ease); }
-.foot-brand > * { transform: translateY(48%); transition: transform 600ms var(--ease); }
-.foot-brand:hover, .foot-brand:focus-visible { height: 220px; }
-.foot-brand:hover > *, .foot-brand:focus-visible > * { transform: none; }
-.foot-mark { width: 112px; height: 112px; flex: none; }
-.bo-word { margin: 0; }
+   mark. At rest only the top half shows at the page's bottom edge; on
+   hover the row slides up into view and the main mark turns into Bo for
+   one bob (bo.css's merged state). The frame keeps its height, so the
+   page never grows. */
+.foot-brand { display: flex; align-items: flex-start; justify-content: center; gap: var(--cb-space-4); height: 200px; margin-top: var(--cb-space-9); overflow: hidden; text-decoration: none; }
+.foot-brand > * { transform: translateY(100px); transition: transform 700ms var(--ease); }
+.foot-brand:hover > *, .foot-brand:focus-visible > * { transform: translateY(16px); }
+.foot-mark { position: relative; width: 168px; height: 168px; flex: none; }
+.foot-mark > * { position: absolute; inset: 0; transition: opacity 400ms var(--ease), transform 700ms var(--ease); }
+.foot-mark .as-bo { opacity: 0; transform: scale(0.9); }
+.foot-brand:hover .foot-mark .as-mark { opacity: 0; transform: scale(1.1); }
+.foot-brand:hover .foot-mark .as-bo { opacity: 1; transform: scale(1.12); }
 .bo-word span { transition: transform var(--slow) var(--ease); }
 .bo-word span:hover { transform: scale(1.25); }
 @media (max-width: 1199px) { .foot-brand { height: auto; justify-content: flex-start; } .foot-brand > * { transform: none; } .foot-mark { width: 56px; height: 56px; } }
 @media (prefers-reduced-motion: reduce) { .float, .float:hover, .stage-clip, .subtitle, .how-item, .bo-word span, .foot-brand, .foot-brand > * { transition: none; } .float:hover { transform: translate(var(--x, 0), var(--y, 0)); } }
 @media (max-width: 720px) { .peek { display: none; } .subtitle { position: static; transform: none; margin: var(--cb-space-2) auto 0; display: block; width: fit-content; } }
+
+/* YC-style pieces: an announcement pill, a trust row, product shots in a
+   soft frame, and a closing call to action */
+.announce { display: inline-flex; align-items: center; gap: var(--cb-space-1); height: 32px; padding: 0 14px 0 4px; margin-top: var(--cb-space-9); border: var(--cb-border-width) solid var(--cb-color-gray-200); border-radius: var(--cb-radius-pill); font-size: 14px; color: var(--muted); text-decoration: none; position: relative; z-index: 2; transition: border-color var(--slow) var(--ease); }
+.announce span { height: 24px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: var(--cb-radius-pill); background: var(--cb-color-ink); color: var(--cb-color-paper); font-size: 12px; font-weight: 600; }
+.announce b { font-weight: 400; transition: transform var(--slow) var(--ease); }
+.announce:hover { border-color: var(--cb-color-ink); }
+.announce:hover b { transform: translateX(3px); }
+.hero > h1 { margin-top: var(--cb-space-3); }
+.trust { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--cb-space-1); list-style: none; padding: 0; margin: var(--cb-space-3) 0 0; position: relative; z-index: 2; }
+.trust li { height: 30px; display: inline-flex; align-items: center; padding: 0 12px; border: 1px solid var(--cb-color-gray-200); border-radius: var(--cb-radius-pill); font-size: 13px; color: var(--muted); }
+.frame { padding: var(--cb-space-4); border-radius: calc(var(--cb-radius-card) + 8px); background: var(--cb-color-gray-100); }
+.demo.frame { margin-top: var(--cb-space-9); }
+.demo.frame .peek { top: -30px; left: 64px; }
+.demo.frame .subtitle { bottom: 100px; }
+.closing { text-align: center; padding: var(--cb-space-12) var(--gutter) 0; }
+.closing h2 { margin: var(--cb-space-3) auto 0; font-size: 56px; letter-spacing: -1.6px; }
+.closing .lede { margin-left: auto; margin-right: auto; }
+.hero > .eyebrow { display: none; }
+@media (max-width: 720px) { .frame { padding: var(--cb-space-1); } .closing h2 { font-size: 44px; letter-spacing: -1.2px; } }

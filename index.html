@@ -29,10 +29,13 @@
   </a>
   <nav aria-label="Main">
     <a href="#how">How it works</a>
-    <a href="#get">Get Crewbo</a>
+    <a href="#private">Privacy</a>
     <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Docs</a>
-    <a href="https://github.com/crewbo/crewbo">GitHub</a>
   </nav>
+  <div class="nav-cta">
+    <a class="button small secondary" href="https://github.com/crewbo/crewbo">GitHub</a>
+    <a class="button small primary" href="#get">Get Crewbo</a>
+  </div>
 </header>
 
 <main id="main">
@@ -42,15 +45,20 @@
       <span class="float sticker" style="right:11%;top:150px;--r:5deg" data-scene="reading" data-color="0" data-size="76"></span>
       <span class="float sticker" style="left:21%;top:300px;--r:3deg" data-scene="offline" data-size="60"></span>
     </div>
-    <p class="eyebrow">Open source · Preview</p>
+    <a class="announce" href="https://github.com/crewbo/crewbo"><span>Preview</span>First release about 22 November 2026 <b>→</b></a>
     <h1>Every agent, one crew.</h1>
     <p class="lede">Your team's coding agents, working in parallel without collisions.</p>
     <div class="actions">
       <a class="button primary" href="#get">Get Crewbo</a>
       <a class="button secondary" href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Read the docs</a>
     </div>
+    <ul class="trust">
+      <li>Open source · Apache-2.0</li>
+      <li>Claude Code · Codex · Antigravity</li>
+      <li>Linux · macOS · Windows</li>
+    </ul>
 
-    <figure class="demo" id="demo" data-step="1" aria-describedby="demo-caption">
+    <figure class="demo frame" id="demo" data-step="1" aria-describedby="demo-caption">
       <span class="peek" data-face="nearby" data-color="3" data-size="64" aria-hidden="true"></span>
       <div class="ide" aria-hidden="true">
         <div class="titlebar">
@@ -114,7 +122,7 @@
         <button class="how-item" type="button" data-pick="claims"><span class="bo-slot" data-state="working" data-color="1" data-size="48"></span><span class="how-text"><b>Agents check before they edit</b><span>An agent is stopped before it edits a file another agent holds, and told who has it.</span></span></button>
         <button class="how-item" type="button" data-pick="crew"><span class="bo-slot" data-state="idle" data-color="0" data-size="48"></span><span class="how-text"><b>See your crew, live</b><span>Who is online, what each agent is writing, who is asleep.</span></span></button>
       </div>
-      <div class="how-stage">
+      <div class="how-stage frame">
       <div class="clip stage-clip" data-clip="claims" aria-hidden="true">
         <div class="clip-bar">Claude Code · ronel</div>
         <div class="clip-body">
@@ -234,6 +242,15 @@ task build</code></pre></article>
       <details><summary>Is it open source?</summary><p>Yes: Apache-2.0, with the sync server under AGPL-3.0.</p></details>
     </div>
   </section>
+  <section class="closing" id="start">
+    <span class="closing-bo" data-face="idle" data-color="2" data-size="96" aria-hidden="true"></span>
+    <h2>Give every agent a crew.</h2>
+    <p class="lede">Set up in about 15 minutes. Your code stays on your computer.</p>
+    <div class="actions">
+      <a class="button primary" href="#get">Get Crewbo</a>
+      <a class="button secondary" href="https://github.com/crewbo/crewbo">Star on GitHub</a>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -245,7 +262,7 @@ task build</code></pre></article>
   </div>
   <p class="fine">Crewbo is open source under the Apache License 2.0. Claude Code, Codex and Antigravity are their owners' products; Crewbo is not affiliated with them.</p>
   <a class="foot-brand" id="footbrand" href="#top" aria-label="Crewbo, back to the top">
-    <img class="foot-mark" src="brand/assets/svg/logo/mark-black.svg" alt="" width="112" height="112" draggable="false">
+    <span class="foot-mark" aria-hidden="true"><img class="as-mark" src="brand/assets/svg/logo/mark-black.svg" alt="" width="168" height="168" draggable="false"><span class="as-bo"></span></span>
     <span class="bo-word" id="boword" aria-hidden="true"></span>
   </a>
 </footer>
