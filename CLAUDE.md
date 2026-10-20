@@ -20,7 +20,15 @@ Source precedence: Ronel's explicit instructions > PRD > accepted ADRs > researc
 
 ## Current state
 
-Planned, nothing built. Licence: Apache-2.0 (Ronel, 2026-10-20). Served by GitHub Pages from `main` once Ronel turns Pages on; at `https://crewbo.github.io/website/` until `crewbo.dev` is bought, then on the custom domain.
+Planned; `brand/` holds the brand files, copied by `scripts/sync-brand.sh`; no page yet. Licence: Apache-2.0 (Ronel, 2026-10-20). Served by GitHub Pages from `main` once Ronel turns Pages on; at `https://crewbo.github.io/website/` until `crewbo.dev` is bought, then on the custom domain.
+
+## Commands
+
+| Purpose | Command |
+| --- | --- |
+| Copy the brand files into `brand/` | `scripts/sync-brand.sh` (from crewbo at the commit in `CREWBO_REF`) |
+| Check `brand/` is unchanged | `scripts/sync-brand.sh --check` |
+| Take a newer brand | put a newer crewbo commit in `CREWBO_REF`, run the script, review the diff |
 
 ## Non-negotiable rules
 
