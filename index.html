@@ -37,6 +37,32 @@
 
 <main id="main">
   <section class="hero" id="top">
+    <div class="desk" id="desk" aria-hidden="true">
+      <div class="float win" data-float="claims" style="left:2%;top:40px;width:250px">
+        <div class="win-bar">Claude Code</div>
+        <div class="win-body"><p class="tiny you">&gt; fix the login bug in src/auth.go</p><p class="tiny mono" data-type="src/auth.go is claimed by riya's agent until at least 15:04 (Crewbo).">src/auth.go is claimed by riya's agent until at least 15:04 (Crewbo).</p></div>
+      </div>
+      <div class="float win" data-float="crew" style="right:2%;top:30px;width:250px">
+        <div class="win-bar">Crewbo: Crew</div>
+        <div class="win-body"><div class="mini-row"><span class="bo-slot" data-scene="writing" data-color="1" data-size="40"></span><div><b>riya</b><span>Writing auth.go</span></div></div></div>
+      </div>
+      <div class="float toastcard" data-float="handoff" style="left:6%;top:300px;width:230px">
+        <p>ronel wants src/auth.go next</p><span class="b1">Hand off</span><span class="b2">Not yet</span>
+      </div>
+      <div class="float win dark" data-float="term" style="right:3%;top:290px;width:290px">
+        <div class="win-bar">Terminal</div>
+        <div class="win-body"><p class="tiny mono">$ crewbo room join YOUR-INVITE-CODE</p><p class="tiny mono dim" data-type="Joined room hackathon-team (lead: ronel, 3 members).">Joined room hackathon-team (lead: ronel, 3 members).</p></div>
+      </div>
+      <div class="float pillbar" data-float="status" style="left:24%;top:8px">crewbo  1 claimed · 1 handoff · 0 conflicts</div>
+      <div class="float win" data-float="tag" style="right:22%;top:0;width:250px">
+        <div class="win-bar">auth.go</div>
+        <div class="win-body"><p class="tiny mono"><span class="k">func</span> <span class="f">Login</span>(user, pass <span class="k">string</span>) <span class="tagmini">riya · Codex</span></p></div>
+      </div>
+      <span class="float sticker" style="left:20%;top:200px" data-scene="writing" data-color="1" data-size="72"></span>
+      <span class="float sticker" style="right:19%;top:190px" data-scene="reading" data-color="0" data-size="72"></span>
+      <span class="float sticker" style="left:15%;top:440px" data-scene="offline" data-size="64"></span>
+      <span class="float sticker" style="right:15%;top:470px"><img src="brand/assets/svg/logo/mark-black.svg" alt="" width="56" height="56"></span>
+    </div>
     <p class="eyebrow">Open source · Preview</p>
     <h1>Every agent, one crew.</h1>
     <p class="lede">Your team's coding agents, working in parallel without collisions.</p>
@@ -241,7 +267,7 @@ task build</code></pre></article>
     <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/privacy.md">Privacy</a>
     <a href="https://github.com/crewbo/crewbo/issues">Issues</a>
   </div>
-  <div class="crewline" id="crewline" aria-hidden="true"></div>
+  <div class="bo-word" id="boword" aria-hidden="true"></div>
   <picture class="wordmark" aria-hidden="true">
     <img src="brand/assets/svg/logo/lockup-light.svg" alt="">
   </picture>

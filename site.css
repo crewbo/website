@@ -53,7 +53,8 @@ h3 { font-size: 22px; line-height: 1.3; font-weight: 600; margin: 0 0 var(--cb-s
 .more { margin: var(--cb-space-4) 0 0; font-size: 15px; }
 
 /* Hero */
-.hero { padding-top: var(--cb-space-12); text-align: center; }
+.hero { position: relative; padding-top: var(--cb-space-12); text-align: center; }
+.hero > .eyebrow, .hero > h1, .hero > .lede, .hero > .actions { position: relative; z-index: 2; }
 .hero h1, .hero .lede { margin-left: auto; margin-right: auto; }
 .hero .lede { max-width: 36em; }
 .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--cb-space-2); margin-top: var(--cb-space-5); }
@@ -68,7 +69,7 @@ h3 { font-size: 22px; line-height: 1.3; font-weight: 600; margin: 0 0 var(--cb-s
    product as it looks. The crew panel inside it is the extension's panel
    (extension/webview/crew.css, light-theme fallback), on brand tokens. */
 .demo { margin: var(--cb-space-9) 0 0; text-align: left; }
-.ide, .clip {
+.ide, .clip, .win {
   --ide-chrome: #FAFAFD; --ide-line: #F0F1F2; --ide-widget: #E2E2E5; --ide-fg: #202020; --ide-muted: #606060;
   --ide-keyword: #CF222E; --ide-string: #0A3069; --ide-comment: #6E7781; --ide-function: #8250DF;
 }
@@ -188,8 +189,6 @@ footer .links a:hover { color: var(--fg); }
   .cards, .cards.three, .facts, .matrix { grid-template-columns: minmax(0, 1fr); }
   .feature, .feature.flip { grid-template-columns: minmax(0, 1fr); }
   .feature.flip .copy-col { order: 0; }
-  .crewline { gap: var(--cb-space-1); }
-  .crewline .bo-slot svg { width: 36px; height: 36px; }
   .setup .agents { justify-content: flex-start; overflow-x: auto; }
 }
 
@@ -260,6 +259,56 @@ footer .links a:hover { color: var(--fg); }
 .matrix > div { border-top: var(--cb-border-width) solid var(--fg); padding-top: var(--cb-space-2); }
 .matrix p:not(.eyebrow) { font-size: 22px; font-weight: 600; line-height: 1.3; margin: var(--cb-space-1) 0 0; }
 
-/* Footer: the crew comes online as you arrive */
-.crewline { display: flex; justify-content: center; gap: var(--cb-space-3); margin-top: var(--cb-space-9); }
-.crewline .bo-slot { cursor: default; }
+
+/* The hero desktop (after heyclicky): small windows and Bo stickers around
+   the headline, on a dotted surface. Drag them; hover one to spotlight it. */
+.hero::before { content: ""; position: absolute; inset: 0 calc(-1 * var(--gutter)) auto; height: 640px; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23E5E5E5'/%3E%3C/svg%3E"); }
+.desk { position: absolute; inset: 0 0 auto; height: 600px; z-index: 1; }
+.float { position: absolute; cursor: grab; touch-action: none; user-select: none; transition: opacity var(--cb-motion-duration-transition) ease-out, transform var(--cb-motion-duration-transition) ease-out; }
+.float.dragging { cursor: grabbing; transition: opacity var(--cb-motion-duration-transition) ease-out; }
+.desk.spot .float:not(.lit), .hero.spot .demo, .hero.spot .setup { opacity: 0.18; }
+.float.lit { z-index: 20 !important; }
+.float.lit:not(.dragging) { transform: translate(var(--x, 0), var(--y, 0)) scale(1.18); }
+.float { transform: translate(var(--x, 0), var(--y, 0)); }
+.win { background: var(--cb-color-paper); border: 1px solid var(--cb-color-gray-200); border-radius: 10px; overflow: hidden; text-align: left; }
+.win-bar { height: 26px; display: flex; align-items: center; gap: 6px; padding: 0 10px; background: var(--cb-color-gray-100); border-bottom: 1px solid var(--cb-color-gray-200); font-size: 12px; font-weight: 600; }
+.win-bar::before { content: ""; width: 30px; height: 8px; margin-right: 4px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='8'%3E%3Ccircle cx='4' cy='4' r='3.5' fill='%23A3A3A3'/%3E%3Ccircle cx='15' cy='4' r='3.5' fill='%23A3A3A3'/%3E%3Ccircle cx='26' cy='4' r='3.5' fill='%23A3A3A3'/%3E%3C/svg%3E"); }
+.win-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.win.dark .win-body { background: var(--cb-color-surface-dark-editor); color: var(--cb-color-paper); }
+.tiny { font-size: 12px; line-height: 1.45; margin: 0; }
+.tiny.mono { font-family: var(--cb-font-family-mono); font-size: 11px; }
+.tiny.you { align-self: flex-end; padding: 4px 8px; background: var(--cb-color-gray-100); border-radius: 8px; }
+.tiny.dim { color: var(--cb-color-gray-400); }
+.win .k { color: var(--ide-keyword); } .win .f { color: var(--ide-function); }
+
+.tagmini { margin-left: 8px; padding: 0 6px; border: 1px solid var(--cb-color-team-teal-base); border-radius: var(--cb-radius-pill); color: var(--cb-color-team-teal-base); }
+.mini-row { display: flex; align-items: center; gap: 10px; padding: 6px; border-radius: var(--cb-radius-row); background: var(--cb-color-gray-100); }
+.mini-row div { display: flex; flex-direction: column; font-size: 12px; }
+.mini-row span:not(.bo-slot) { color: var(--cb-color-gray-600); }
+.toastcard { padding: 12px; border: var(--cb-border-width) solid var(--cb-color-gray-200); border-radius: 16px; background: var(--cb-color-paper); display: flex; flex-wrap: wrap; gap: 6px; text-align: left; }
+.toastcard p { width: 100%; margin: 0 0 2px; font-size: 12px; font-weight: 600; }
+.toastcard .b1, .toastcard .b2 { height: 28px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: var(--cb-radius-controlSm); font-size: 12px; font-weight: 600; }
+.toastcard .b1 { background: var(--cb-color-ink); color: var(--cb-color-paper); }
+.toastcard .b2 { border: var(--cb-border-width) solid var(--cb-color-ink); }
+.pillbar { height: 30px; display: inline-flex; align-items: center; padding: 0 14px; border: 1px solid var(--cb-color-gray-200); border-radius: var(--cb-radius-pill); background: var(--cb-color-paper); font-family: var(--cb-font-family-mono); font-size: 11px; color: var(--cb-color-gray-600); white-space: pre; }
+.sticker { display: inline-flex; }
+.hero > .eyebrow { margin-top: var(--cb-space-9); }
+@media (max-width: 1199px) { .desk, .hero::before { display: none; } .hero > .eyebrow { margin-top: 0; } }
+@media (prefers-reduced-motion: reduce) { .float { transition: none; } .float.lit:not(.dragging) { transform: translate(var(--x, 0), var(--y, 0)); } }
+
+/* Feature rows: the row in the middle of the screen is in focus */
+.feature { transition: opacity 300ms ease-out; }
+.features-focus .feature:not(.focus) { opacity: 0.3; }
+
+/* Footer: "crewbo" spelled in the Bo mark (experiment, see the PR) */
+.bo-word { display: grid; justify-content: center; margin: var(--cb-space-9) 0 var(--cb-space-4); }
+.bo-word span { display: inline-flex; width: 24px; height: 24px; overflow: visible; align-items: center; justify-content: center; cursor: grab; touch-action: none; }
+.bo-word svg { flex: none; margin: -4px; }
+.bo-word span.on { animation: cb-pop 300ms ease-out both; }
+.bo-word span.back { transition: transform 300ms ease-out; }
+@keyframes cb-pop { from { transform: scale(0); } to { transform: scale(1); } }
+@media (max-width: 1199px) { .bo-word { display: none; } }
+@media (min-width: 1200px) { .wordmark { display: none; } }
+@media (prefers-reduced-motion: reduce) { .bo-word svg { flex: none; margin: -4px; }
+.bo-word span.on { animation: none; } }

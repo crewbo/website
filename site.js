@@ -3,7 +3,7 @@
 // films: the hero, the setup terminal, one clip per feature, and the crew
 // in the footer. Each runs only while it is on screen and the tab is
 // visible; with reduced motion each shows one still, meaningful frame.
-import { boSVG, panelView, sceneSVG, teamColor } from "./brand/reference/component/bo.js";
+import { boSVG, markSVG, panelView, sceneSVG, teamColor } from "./brand/reference/component/bo.js";
 
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const color = (i) => teamColor(Number(i)).base;
@@ -57,6 +57,11 @@ function drawRow(row, input, colorIndex, status, agent) {
   }
   const a = row.querySelector("[data-agent]");
   if (a && agent !== undefined) a.textContent = agent;
+}
+
+// Static Bos: [data-scene] and [data-state] slots.
+for (const el of document.querySelectorAll("[data-scene]")) {
+  el.innerHTML = sceneSVG({ scene: el.dataset.scene, color: color(el.dataset.color ?? 0), size: Number(el.dataset.size ?? 64) });
 }
 
 const idle = { online: true, activity: "none" };
@@ -210,29 +215,125 @@ function stepped(clip, step) {
   }, 1);
 }
 
-// The footer: eight Bos asleep, waking one by one in their teammate
-// colours when you reach the bottom; hovering one makes it start working.
+// The hero desktop: drag any window or sticker; hovering one spotlights it
+// (the rest fades) and plays its line of text.
 {
-  const line = document.getElementById("crewline");
-  const face = (i, state) => boSVG({ state, color: color(i), size: 64, theme: "light" });
-  const slots = Array.from({ length: 8 }, (_, i) => {
-    const el = document.createElement("span");
-    el.className = "bo-slot";
-    el.innerHTML = reduce ? face(i, "idle") : sceneSVG({ scene: "offline", size: 64 });
-    if (reduce) el.dataset.awake = "1";
-    el.addEventListener("mouseenter", () => { if (el.dataset.awake) el.innerHTML = face(i, "working"); });
-    el.addEventListener("mouseleave", () => { if (el.dataset.awake) el.innerHTML = face(i, "idle"); });
-    line.append(el);
-    return el;
-  });
-  let woke = reduce;
-  whenVisible(line, async () => {
-    if (woke) return;
-    woke = true;
-    for (const [i, el] of slots.entries()) {
-      await sleep(180);
-      el.dataset.awake = "1";
-      el.innerHTML = face(i, "idle");
+  const desk = document.getElementById("desk");
+  const hero = desk.closest(".hero");
+  let top = 10;
+  for (const f of desk.querySelectorAll(".float")) {
+    const typed = f.querySelector("[data-type]");
+    let typing;
+    f.addEventListener("mouseenter", () => {
+      f.classList.add("lit");
+      desk.classList.add("spot");
+      hero.classList.add("spot");
+      if (typed && !reduce) {
+        clearInterval(typing);
+        const text = typed.dataset.type;
+        let i = 0;
+        typed.textContent = "";
+        typing = setInterval(() => { typed.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(typing); }, 22);
+      }
+    });
+    f.addEventListener("mouseleave", () => {
+      f.classList.remove("lit");
+      desk.classList.remove("spot");
+      hero.classList.remove("spot");
+      if (typed) { clearInterval(typing); typed.textContent = typed.dataset.type; }
+    });
+    let start;
+    f.addEventListener("pointerdown", (e) => {
+      start = { x: e.clientX, y: e.clientY, ox: parseFloat(f.style.getPropertyValue("--x")) || 0, oy: parseFloat(f.style.getPropertyValue("--y")) || 0 };
+      f.setPointerCapture(e.pointerId);
+      f.classList.add("dragging");
+      f.style.zIndex = String(++top);
+    });
+    f.addEventListener("pointermove", (e) => {
+      if (!start) return;
+      f.style.setProperty("--x", `${start.ox + e.clientX - start.x}px`);
+      f.style.setProperty("--y", `${start.oy + e.clientY - start.y}px`);
+    });
+    const end = () => { start = undefined; f.classList.remove("dragging"); };
+    f.addEventListener("pointerup", end);
+    f.addEventListener("pointercancel", end);
+  }
+}
+
+// Feature rows: the one nearest the middle of the screen is in focus.
+{
+  const how = document.getElementById("how");
+  const rows = [...how.querySelectorAll(".feature")];
+  how.classList.add("features-focus");
+  const focus = () => {
+    const mid = innerHeight / 2;
+    let best;
+    let bestD = Infinity;
+    for (const r of rows) {
+      const b = r.getBoundingClientRect();
+      const d = Math.abs(b.top + b.height / 2 - mid);
+      if (d < bestD) { bestD = d; best = r; }
     }
-  }, () => {});
+    for (const r of rows) r.classList.toggle("focus", r === best);
+  };
+  addEventListener("scroll", focus, { passive: true });
+  addEventListener("resize", focus);
+  focus();
+}
+
+// The footer: "crewbo" spelled in the Bo mark. The marks pop in letter by
+// letter when you reach the bottom; hovering one wakes it as a teammate's
+// Bo, and each can be dragged and springs back.
+{
+  const font = {
+    c: ["     ", "     ", " ####", "#    ", "#    ", "#    ", " ####"],
+    r: ["     ", "     ", "# ###", "##   ", "#    ", "#    ", "#    "],
+    e: ["     ", "     ", " ### ", "#   #", "#####", "#    ", " ####"],
+    w: ["     ", "     ", "#   #", "#   #", "# # #", "# # #", " # # "],
+    b: ["#    ", "#    ", "#### ", "#   #", "#   #", "#   #", "#### "],
+    o: ["     ", "     ", " ### ", "#   #", "#   #", "#   #", " ### "],
+  };
+  const word = "crewbo";
+  const cols = word.length * 6 - 1;
+  const grid = document.getElementById("boword");
+  grid.style.gridTemplateColumns = `repeat(${cols}, 24px)`;
+  const marks = [];
+  for (let row = 0; row < 7; row++) {
+    for (let col = 0; col < cols; col++) {
+      const letter = word[Math.floor(col / 6)];
+      const lc = col % 6;
+      const cell = document.createElement("span");
+      if (lc < 5 && font[letter][row][lc] === "#") {
+        cell.innerHTML = markSVG({ size: 32 });
+        cell.dataset.col = String(col);
+        marks.push(cell);
+      }
+      grid.append(cell);
+    }
+  }
+  let n = 0;
+  for (const m of marks) {
+    const tint = n++ % 8;
+    m.addEventListener("mouseenter", () => { m.innerHTML = boSVG({ state: "working", color: color(tint), size: 32, theme: "light" }); });
+    m.addEventListener("mouseleave", () => { m.innerHTML = markSVG({ size: 32 }); });
+    let start;
+    m.addEventListener("pointerdown", (e) => { start = { x: e.clientX, y: e.clientY }; m.setPointerCapture(e.pointerId); m.classList.remove("back"); m.style.zIndex = "5"; m.style.position = "relative"; });
+    m.addEventListener("pointermove", (e) => { if (start) m.style.transform = `translate(${e.clientX - start.x}px, ${e.clientY - start.y}px)`; });
+    const end = () => { if (!start) return; start = undefined; m.classList.add("back"); m.style.transform = ""; };
+    m.addEventListener("pointerup", end);
+    m.addEventListener("pointercancel", end);
+  }
+  if (reduce) {
+    for (const m of marks) m.style.visibility = "visible";
+  } else {
+    for (const m of marks) m.style.visibility = "hidden";
+    let built = false;
+    whenVisible(grid, () => {
+      if (built) return;
+      built = true;
+      for (const m of marks) {
+        setTimeout(() => { m.style.visibility = "visible"; m.classList.add("on"); }, Number(m.dataset.col) * 40);
+      }
+    }, () => {});
+  }
 }
