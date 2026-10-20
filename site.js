@@ -8,9 +8,9 @@ const color = (i) => teamColor(Number(i)).base;
 
 // Static Bos: [data-scene] and [data-state] slots in the page.
 for (const el of document.querySelectorAll("[data-scene]")) {
-  el.innerHTML = sceneSVG({ scene: el.dataset.scene, color: color(el.dataset.color), size: 96 });
+  el.innerHTML = sceneSVG({ scene: el.dataset.scene, color: color(el.dataset.color ?? 0), size: Number(el.dataset.size ?? 96) });
 }
-for (const el of document.querySelectorAll(".card [data-state]")) {
+for (const el of document.querySelectorAll(".tile [data-state]")) {
   el.innerHTML = boSVG({ state: el.dataset.state, color: color(el.dataset.color), size: 64, theme: "light" });
 }
 
@@ -77,3 +77,38 @@ show(step);
 new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; run(); }).observe(demo);
 document.addEventListener("visibilitychange", run);
 reduce.addEventListener("change", () => { step = 1; show(step); run(); });
+
+// The setup box: one tab per agent; Copy copies the shown commands
+// without the prompts and comments.
+const tabs = [...document.querySelectorAll(".agents [role=tab]")];
+const pick = (tab) => {
+  for (const t of tabs) {
+    const on = t === tab;
+    t.setAttribute("aria-selected", String(on));
+    t.tabIndex = on ? 0 : -1;
+    document.querySelector(`[data-agent-cmd="${t.dataset.agent}"]`).hidden = !on;
+  }
+};
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => pick(t));
+  t.addEventListener("keydown", (e) => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (!step) return;
+    const next = tabs[(i + step + tabs.length) % tabs.length];
+    pick(next);
+    next.focus();
+  });
+});
+pick(tabs[0]);
+const copy = document.querySelector("[data-copy]");
+copy.addEventListener("click", async () => {
+  const shown = document.querySelector("[data-agent-cmd]:not([hidden])");
+  const text = shown.innerText.split("\n").filter((l) => l.startsWith("$ ")).map((l) => l.slice(2)).join("\n");
+  try {
+    await navigator.clipboard.writeText(text);
+    copy.textContent = "Copied";
+  } catch {
+    copy.textContent = "Select and copy";
+  }
+  setTimeout(() => (copy.textContent = "Copy"), 2000);
+});
