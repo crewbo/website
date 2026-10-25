@@ -30,10 +30,10 @@
   <nav aria-label="Main">
     <a href="#how">How it works</a>
     <a href="#private">Privacy</a>
-    <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Docs</a>
+    <a href="getting-started.html">Docs</a>
   </nav>
   <div class="nav-cta">
-    <a class="button small secondary" href="https://github.com/crewbo/crewbo">GitHub</a>
+    <a class="button small soft" href="https://github.com/crewbo/crewbo"><img src="assets/icons/github.svg" alt="" width="18" height="18">GitHub</a>
     <a class="button small primary" href="#get">Get Crewbo</a>
   </div>
 </header>
@@ -50,18 +50,17 @@
     <p class="lede">Your team's coding agents, working in parallel without collisions.</p>
     <div class="actions">
       <a class="button primary" href="#get">Get Crewbo</a>
-      <a class="button secondary" href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Read the docs</a>
+      <a class="button soft" href="getting-started.html">Read the docs</a>
     </div>
-    <ul class="trust">
-      <li>Open source · Apache-2.0</li>
-      <li><img src="assets/agents/claude-code.png" alt="" width="16" height="16">Claude Code</li>
-      <li><img src="assets/agents/codex.svg" alt="" width="16" height="16">Codex</li>
-      <li><img src="assets/agents/antigravity.svg" alt="" width="16" height="16">Antigravity</li>
-      <li>Linux · macOS · Windows</li>
+    <ul class="strip hero-strip" aria-label="Works with">
+      <li><img src="assets/agents/claude-code.svg" alt="" width="20" height="20">Claude Code</li>
+      <li><img src="assets/agents/codex.svg" alt="" width="20" height="20">Codex</li>
+      <li><img src="assets/agents/antigravity.png" alt="" width="20" height="20">Antigravity</li>
     </ul>
 
+    <div class="demo-wrap">
+      <span class="peek" data-face="nearby" data-color="3" data-size="72" aria-hidden="true"></span>
     <figure class="demo frame" id="demo" data-step="1" aria-describedby="demo-caption">
-      <span class="peek" data-face="nearby" data-color="3" data-size="64" aria-hidden="true"></span>
       <div class="ide" aria-hidden="true">
         <div class="titlebar">
           <img src="brand/assets/svg/logo/mark-black.svg" alt="" width="16" height="16">
@@ -114,6 +113,7 @@
       <p class="subtitle" data-cap aria-live="off"></p>
       <figcaption id="demo-caption">riya's Codex holds <code>src/auth.go</code>. ronel's Claude Code is stopped, asks, and gets it.</figcaption>
     </figure>
+    </div>
   </section>
 
   <section id="how">
@@ -180,11 +180,19 @@
 
   <section id="works">
     <p class="eyebrow">03 · Works with</p>
-    <div class="matrix">
-      <div><p class="eyebrow">Agents</p><p><img src="assets/agents/claude-code.png" alt="" width="24" height="24">Claude Code</p><p><img src="assets/agents/codex.svg" alt="" width="24" height="24">Codex</p><p><img src="assets/agents/antigravity.svg" alt="" width="24" height="24">Antigravity</p></div>
-      <div><p class="eyebrow">Editors</p><p>VS Code</p><p>Crewbo IDE</p><p>Any terminal</p></div>
-      <div><p class="eyebrow">Systems</p><p>Linux</p><p>macOS</p><p>Windows</p></div>
-    </div>
+    <h2>Your agent. Your editor.</h2>
+    <p class="intro">Works anywhere your agent runs.</p>
+    <ul class="strip">
+      <li><img src="assets/agents/claude-code.svg" alt="" width="20" height="20">Claude Code</li>
+      <li><img src="assets/agents/codex.svg" alt="" width="20" height="20">Codex</li>
+      <li><img src="assets/agents/antigravity.png" alt="" width="20" height="20">Antigravity</li>
+      <li><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>VS Code</li>
+      <li><img src="brand/assets/svg/logo/mark-black.svg" alt="" width="20" height="20">Crewbo IDE</li>
+      <li><svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 7l5 5-5 5M12 17h7"/></svg>Terminal</li>
+      <li><svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg>Linux</li>
+      <li><svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg>macOS</li>
+      <li><svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg>Windows</li>
+    </ul>
   </section>
 
   <section id="get">
@@ -192,9 +200,9 @@
     <h2>Set up in about 15 minutes.</h2>
     <div class="setup" id="setup">
       <div class="agents" role="tablist" aria-label="Your agent">
-        <button role="tab" aria-selected="true" aria-controls="cmd" data-agent="claude"><img src="assets/agents/claude-code.png" alt="" width="18" height="18">Claude Code</button>
+        <button role="tab" aria-selected="true" aria-controls="cmd" data-agent="claude"><img src="assets/agents/claude-code.svg" alt="" width="18" height="18">Claude Code</button>
         <button role="tab" aria-selected="false" aria-controls="cmd" data-agent="codex"><img src="assets/agents/codex.svg" alt="" width="18" height="18">Codex</button>
-        <button role="tab" aria-selected="false" aria-controls="cmd" data-agent="antigravity"><img src="assets/agents/antigravity.svg" alt="" width="18" height="18">Antigravity</button>
+        <button role="tab" aria-selected="false" aria-controls="cmd" data-agent="antigravity"><img src="assets/agents/antigravity.png" alt="" width="18" height="18">Antigravity</button>
       </div>
       <div class="terminal" id="cmd" role="tabpanel">
         <button class="copy" type="button" data-copy>Copy</button>
@@ -226,13 +234,11 @@
       </div>
     </div>
     <div class="cards three">
-      <article class="card"><h3>CLI</h3><p>Build from source until the first release.</p><pre><code>git clone https://github.com/crewbo/crewbo
-cd crewbo
-task build</code></pre></article>
-      <article class="card"><h3>Extension</h3><p>For VS Code and editors built on it. Marketplace and Open VSX with the first release.</p></article>
-      <article class="card"><h3>Crewbo IDE <span class="pill">preview</span></h3><p>Crewbo built in. Linux, macOS and Windows with the first release.</p></article>
+      <article class="card"><span class="card-ico"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 7l5 5-5 5M12 17h7"/></svg></span><h3>CLI</h3><p>The <code>crewbo</code> command and its daemon. Build it from source with the steps above.</p><p class="chips"><span>Linux</span><span>macOS</span><span>Windows</span></p></article>
+      <article class="card"><span class="card-ico"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span><h3>Extension</h3><p>The crew panel, claims and handoffs in VS Code and editors built on it.</p><p class="chips"><span>Marketplace</span><span>Open VSX</span></p></article>
+      <article class="card"><span class="card-ico"><img src="brand/assets/svg/logo/mark-black.svg" alt="" width="22" height="22"></span><h3>Crewbo IDE</h3><p>An editor with Crewbo built in and the crew panel open from the start.</p><p class="chips"><span>Preview</span><span>Linux · macOS · Windows</span></p></article>
     </div>
-    <p class="more">First release: about 22 November 2026.</p>
+    <p class="more">The extension and the IDE arrive with the first release, about 22 November 2026.</p>
   </section>
 
   <section id="faq">
@@ -250,17 +256,17 @@ task build</code></pre></article>
     <p class="lede">Set up in about 15 minutes. Your code stays on your computer.</p>
     <div class="actions">
       <a class="button primary" href="#get">Get Crewbo</a>
-      <a class="button secondary" href="https://github.com/crewbo/crewbo">Star on GitHub</a>
+      <a class="button soft" href="https://github.com/crewbo/crewbo"><img src="assets/icons/github.svg" alt="" width="18" height="18">Star on GitHub</a>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="links">
-    <a href="https://github.com/crewbo/crewbo">GitHub</a>
-    <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/getting-started.md">Getting started</a>
-    <a href="https://github.com/crewbo/crewbo/blob/main/docs/user/privacy.md">Privacy</a>
-    <a href="https://github.com/crewbo/crewbo/issues">Issues</a>
+  <div class="foot-cols">
+    <div><p class="foot-h">Product</p><a href="#how">How it works</a><a href="#private">Privacy</a><a href="#get">Get Crewbo</a><a href="#works">Works with</a></div>
+    <div><p class="foot-h">Resources</p><a href="getting-started.html">Getting started</a><a href="privacy.html">What Crewbo shares</a><a href="troubleshooting.html">Troubleshooting</a><a href="changelog.html">Changelog</a></div>
+    <div><p class="foot-h">Connect</p><a href="https://github.com/crewbo/crewbo">GitHub</a><a href="https://github.com/crewbo/crewbo/issues">Report an issue</a></div>
+    <div class="foot-note"><p class="foot-h">Disclaimer</p><p>*Crewbo never sends the contents of your files anywhere, and it sends no telemetry. Code moves only through your own git remote.*</p></div>
   </div>
   <a class="foot-brand" id="footbrand" href="#top" aria-label="Crewbo, back to the top">
     <span class="foot-mark" aria-hidden="true"><img class="as-mark" src="brand/assets/svg/logo/mark-black.svg" alt="" width="168" height="168" draggable="false"><span class="as-bo"></span></span>

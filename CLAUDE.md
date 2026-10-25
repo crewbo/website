@@ -29,6 +29,7 @@ Planned; `brand/` holds the brand files, copied by `scripts/sync-brand.sh`; no p
 | Copy the brand files into `brand/` | `scripts/sync-brand.sh` (from crewbo at the commit in `CREWBO_REF`) |
 | Check `brand/` is unchanged | `scripts/sync-brand.sh --check` |
 | Take a newer brand | put a newer crewbo commit in `CREWBO_REF`, run the script, review the diff |
+| Rebuild the doc pages (getting started, privacy, troubleshooting, changelog) | `node scripts/sync-docs.mjs` (from crewbo's Markdown at `CREWBO_REF`; `--check` exits 1 when a page differs). Node's standard library only; the pages are committed, so serving needs no build |
 
 ## Non-negotiable rules
 

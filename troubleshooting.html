@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Troubleshooting · Crewbo</title>
+<meta name="color-scheme" content="light">
+<link rel="icon" href="brand/assets/png/favicon.ico" sizes="any">
+<link rel="icon" href="brand/assets/svg/logo/mark-black.svg" type="image/svg+xml">
+<link rel="stylesheet" href="brand/tokens/tokens.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body class="doc-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Crewbo home"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30"></a>
+  <nav aria-label="Main">
+    <a href="index.html#how">How it works</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="getting-started.html">Docs</a>
+  </nav>
+  <div class="nav-cta">
+    <a class="button small soft" href="https://github.com/crewbo/crewbo"><img src="assets/icons/github.svg" alt="" width="16" height="16">GitHub</a>
+    <a class="button small primary" href="index.html#get">Get Crewbo</a>
+  </div>
+</header>
+<main id="main" class="doc">
+<p class="eyebrow">Docs</p>
+<h1>Troubleshooting</h1>
+<nav class="doc-nav" aria-label="Docs"><a href="getting-started.html">Getting started</a><a href="privacy.html">What Crewbo shares and stores</a><a href="troubleshooting.html" aria-current="page">Troubleshooting</a><a href="changelog.html">Changelog</a></nav>
+<p>Start with <code>crewbo doctor</code>: it checks the usual causes and prints a fix for each. The problems below are the ones teams met while testing Crewbo.</p>
+<h2 id="my-agent-is-not-being-stopped">My agent is not being stopped</h2>
+<ul><li><strong>"the Crewbo daemon is not running (start it with <code>crewbo daemon</code>)"</strong> in the agent: the daemon must run while you work. Start <code>crewbo daemon</code> and keep its terminal open. Without it, hooks let everything through so your work is never blocked by a Crewbo fault.</li><li><strong>Codex ignores the hooks:</strong> Codex runs hooks only after you trust them. Open Codex, type <code>/hooks</code> and trust the crewbo hooks. Trust is tied to the exact hook command, so moving the <code>crewbo</code> binary and reinstalling the hooks asks again.</li><li><strong>Codex or Antigravity hooks never run, with no error:</strong> the path to the <code>crewbo</code> binary contains a space. Move it to a folder without spaces and run <code>crewbo hooks install</code> again.</li><li><strong>Codex hook replies look broken on macOS or Linux:</strong> your shell prints something when it starts (for zsh, from <code>~/.zshenv</code>), and that text lands in front of the hook's reply. <code>crewbo doctor</code> shows what it prints; remove it or send it to stderr.</li><li><strong>Another tool's message instead of Crewbo's:</strong> if another hook can also refuse edits (a plugin's edit gate, for example), the agent may show its message when both refuse the same edit. The edit is still blocked.</li></ul>
+<h2 id="i-cannot-reach-the-sync-server">I cannot reach the sync server</h2>
+<ul><li><strong>The address changed:</strong> a Cloudflare quick tunnel gets a new address every time it restarts. Everyone runs <code>crewbo login --server NEW-ADDRESS</code>; when it is the same server, your sign-in and rooms move along without signing in again.</li><li><strong>The tunnel does not start or connect:</strong> some networks (university Wi-Fi, for example) block the port Cloudflare's tunnel uses (7844). Use another network, such as a phone hotspot, or Tailscale.</li><li><strong>"local only: not signed in (crewbo login)"</strong> in <code>crewbo status</code>: sign in with <code>crewbo login --server ADDRESS</code>.</li><li><strong>Signing in stops on a slow network:</strong> Crewbo retries while the GitHub code is valid. If the code expires, run <code>crewbo login</code> again.</li></ul>
+<h2 id="tasks">Tasks</h2>
+<ul><li><strong>"approve a task from an interactive terminal, where you can read it first":</strong> approving must be typed by you, in a terminal, so an agent can never approve a task. Open a terminal window and run <code>crewbo task approve ID</code> there.</li><li><strong>"... does not have; run git fetch":</strong> the task starts from a commit your clone does not have yet. Run <code>git fetch</code> (or <code>git pull</code>) in the repository and approve again.</li><li><strong>"not signed in" when approving:</strong> sign in to the agent first (<code>claude</code> or <code>codex login</code>).</li><li><strong>Billing:</strong> a dispatched Claude Code task uses your Claude plan, not an API key: Crewbo removes <code>ANTHROPIC_API_KEY</code> from the agent's environment (for Codex, <code>OPENAI_API_KEY</code> and <code>CODEX_API_KEY</code>). Pass <code>--use-api-key</code> to keep them.</li><li><strong>Checkpoints fail with a git identity error:</strong> checkpoints and merges commit as you. Set <code>git config --global user.name "Your Name"</code> and <code>git config --global user.email you@example.com</code>.</li><li><strong>Checkpoints go to <code>wip/&lt;login&gt;/&lt;task id&gt;</code> branches:</strong> your remote refused the <code>refs/crewbo/...</code> ref, so Crewbo used a branch instead. Nothing is lost.</li></ul>
+<h2 id="merging">Merging</h2>
+<ul><li><strong>"... conflicts with main on FILE":</strong> update your task first: merge main into the task's branch in its worktree, resolve the conflict, then <code>crewbo task checkpoint ID</code> and merge again.</li><li><strong>Refused because of a teammate's task:</strong> your task and theirs change the same lines. Talk to them; then <code>crewbo task merge ID --despite THEIR-ID</code> merges yours, and they update theirs.</li><li><strong>Refused because only the lead merges:</strong> the room is in lead-only mode (<code>crewbo room status</code> shows it). Ask your lead to merge, or to switch back with <code>crewbo room set --merge members</code>.</li></ul>
+<h2 id="other">Other</h2>
+<ul><li><strong>"a daemon is already running for this user":</strong> one daemon runs per account. Use the one that is running, or stop it first.</li><li><strong>On Linux, Crewbo is slow to sign in or start:</strong> your keychain service did not answer. Crewbo gives up waiting after 3 seconds and keeps the device key in a file only you can read.</li><li><strong>A lost or stolen computer:</strong> sign in on another computer and revoke the old one's key: see <a href="https://github.com/crewbo/crewbo/blob/6acd6364f7656f13866d04f17b3a6fd0b04ad1d0/docs/runbooks/device-key-rotation.md">the device key runbook</a>.</li><li><strong>Windows:</strong> dispatched tasks run with Claude Code only for now; Codex dispatch is not supported on Windows yet.</li></ul>
+<p class="doc-source">From <a href="https://github.com/crewbo/crewbo/blob/6acd6364f7656f13866d04f17b3a6fd0b04ad1d0/docs/user/troubleshooting.md">docs/user/troubleshooting.md</a> in crewbo/crewbo.</p>
+</main>
+<footer>
+  <div class="foot-cols">
+    <div><p class="foot-h">Product</p><a href="index.html#how">How it works</a><a href="index.html#private">Privacy</a><a href="index.html#get">Get Crewbo</a><a href="index.html#works">Works with</a></div>
+    <div><p class="foot-h">Resources</p><a href="getting-started.html">Getting started</a><a href="privacy.html">What Crewbo shares</a><a href="troubleshooting.html">Troubleshooting</a><a href="changelog.html">Changelog</a></div>
+    <div><p class="foot-h">Connect</p><a href="https://github.com/crewbo/crewbo">GitHub</a><a href="https://github.com/crewbo/crewbo/issues">Report an issue</a></div>
+    <div class="foot-note"><p class="foot-h">Disclaimer</p><p>*Crewbo never sends the contents of your files anywhere, and it sends no telemetry. Code moves only through your own git remote.*</p></div>
+  </div>
+  <a class="foot-mini" href="index.html" aria-label="Crewbo home"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30"></a>
+</footer>
+</body>
+</html>
