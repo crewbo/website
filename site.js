@@ -154,6 +154,26 @@ const asleep = { online: false };
     }
     if (mine === run) code.innerHTML = html(done);
   }
+  // Reserve the height of the longest script, so typing and switching tabs
+  // never move the page.
+  const reserve = () => {
+    let tallest = 0;
+    for (const t of tabs) {
+      const pre = box.querySelector(`[data-agent-cmd="${t.dataset.agent}"]`);
+      const { hidden } = pre;
+      const code = pre.querySelector("code");
+      const now = code.innerHTML;
+      pre.hidden = false;
+      pre.style.minHeight = "";
+      code.innerHTML = html(scripts[t.dataset.agent]);
+      tallest = Math.max(tallest, pre.offsetHeight);
+      code.innerHTML = now;
+      pre.hidden = hidden;
+    }
+    for (const pre of box.querySelectorAll("[data-agent-cmd]")) pre.style.minHeight = `${tallest}px`;
+  };
+  reserve();
+  addEventListener("resize", reserve);
   const pick = (tab) => {
     for (const t of tabs) {
       const on = t === tab;
@@ -265,17 +285,10 @@ for (const f of document.querySelectorAll("#desk .float")) {
   const pick = (i) => {
     current = i;
     for (const it of items) it.classList.toggle("active", it.dataset.pick === order[i]);
-    let shown;
-    for (const c of document.querySelectorAll(".stage-clip")) {
-      const on = c.dataset.clip === order[i];
-      c.classList.toggle("active", on);
-      if (on) shown = c;
-    }
-    // The stage takes the shown clip's height, so short clips leave no gap.
-    const stage = document.querySelector(".how-stage");
-    stage.style.height = `${shown.offsetHeight}px`;
+    // The clips share one grid cell, so the stage is always as tall as the
+    // tallest and the section never moves when the clip changes.
+    for (const c of document.querySelectorAll(".stage-clip")) c.classList.toggle("active", c.dataset.clip === order[i]);
   };
-  addEventListener("resize", () => pick(current));
   for (const it of items) {
     const i = order.indexOf(it.dataset.pick);
     it.addEventListener("mouseenter", () => { paused = true; pick(i); });
