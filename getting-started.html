@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting started · Crewbo</title>
+<meta name="color-scheme" content="light">
+<link rel="icon" href="brand/assets/png/favicon.ico" sizes="any">
+<link rel="icon" href="brand/assets/svg/logo/mark-black.svg" type="image/svg+xml">
+<link rel="stylesheet" href="brand/tokens/tokens.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body class="doc-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Crewbo home"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30"></a>
+  <div class="nav-cta">
+    <a class="button small soft" href="https://github.com/crewbo/crewbo"><img src="assets/icons/github.svg" alt="" width="16" height="16">GitHub</a>
+    <a class="button small primary" href="index.html#get">Get Crewbo</a>
+  </div>
+</header>
+<main id="main" class="doc">
+<p class="eyebrow">Docs</p>
+<h1>Getting started</h1>
+<nav class="doc-nav" aria-label="Docs"><a href="getting-started.html" aria-current="page">Getting started</a><a href="privacy.html">What Crewbo shares and stores</a><a href="troubleshooting.html">Troubleshooting</a><a href="changelog.html">Changelog</a></nav>
+<p>Crewbo lets everyone on your team run their own coding agent (Claude Code, Codex or Antigravity) on the same repository without the agents overwriting each other's work. This guide takes you from nothing to a working room in about 15 minutes. What Crewbo shares is on the <a href="privacy.html">privacy page</a>; if something goes wrong, see <a href="troubleshooting.html">troubleshooting</a>.</p>
+<h2 id="1-what-you-need">1. What you need</h2>
+<ul><li>git 2.38 or later, and a clone of your team's repository</li><li>At least one agent: Claude Code, Codex or Antigravity, signed in</li><li>A GitHub account</li><li>The address of your team's sync server (your lead has it; to run one yourself, see <a href="#running-the-sync-server">Running the sync server</a>)</li><li>Until the first release, Go (the version in Crewbo's <code>go.mod</code>) and <a href="https://taskfile.dev">Task</a> to build Crewbo</li></ul>
+<h2 id="2-install-crewbo">2. Install Crewbo</h2>
+<pre><code>git clone https://github.com/crewbo/crewbo
+cd crewbo
+task build            # creates bin/crewbo (bin\crewbo.exe on Windows)</code></pre>
+<p>Put <code>bin/crewbo</code> in a folder <strong>without spaces</strong> in its path, and add that folder to your <code>PATH</code>. Codex and Antigravity run hooks as shell commands, and a space in the path breaks them without any error.</p>
+<h2 id="3-start-the-daemon">3. Start the daemon</h2>
+<p>The daemon is the part of Crewbo that runs on your computer: your agents' hooks ask it before every edit. Start it in its own terminal and leave it running:</p>
+<pre><code>crewbo daemon</code></pre>
+<h2 id="4-sign-in">4. Sign in</h2>
+<pre><code>crewbo login --server https://your-team-server</code></pre>
+<p>Crewbo shows a code: open https://github.com/login/device, enter it and approve. Crewbo asks GitHub for no permissions beyond your public profile.</p>
+<p>In the editor, <strong>Sign in with GitHub</strong> in the crew panel (or <strong>Crewbo: Sign in</strong> in the Command Palette) asks for the server address and runs the same command in a terminal.</p>
+<h2 id="5-join-your-teams-room">5. Join your team's room</h2>
+<p>A room is one repository shared by one team. Run these inside your clone of the repository.</p>
+<ul><li><strong>The lead, once:</strong> <code>crewbo room create</code>, then <code>crewbo room invite</code> prints a join command; send it to your teammates privately.</li><li><strong>Everyone else:</strong> <code>crewbo room join CODE</code>.</li></ul>
+<p>In the editor, the crew panel of a repository outside a room offers <strong>Create a room</strong> and <strong>Join with a code</strong>. While the lead is alone in the room, the panel offers <strong>Invite a teammate</strong> (also <strong>Crewbo: Invite a teammate to this room</strong>), which runs <code>crewbo room invite</code> in a terminal, where the join command appears.</p>
+<p><code>crewbo room status</code> shows the room, its lead and who may merge.</p>
+<h2 id="6-connect-your-agents">6. Connect your agents</h2>
+<pre><code>crewbo hooks install</code></pre>
+<p>This adds Crewbo's hooks to every agent it finds (Claude Code, Codex, Antigravity), keeps your own hooks and settings, and writes a backup next to each file it changes. The same hooks apply when you prompt from the Claude Code or Codex panel inside VS Code, so you can stay in the editor. For <strong>Codex</strong>, open Codex, type <code>/hooks</code> and trust the crewbo hooks; Codex skips hooks you have not trusted.</p>
+<p>Optionally, let your agent look up claims while it plans (Antigravity gets this from <code>crewbo hooks install</code>):</p>
+<pre><code>claude mcp add --scope user --transport stdio crewbo /absolute/path/to/crewbo mcp
+codex mcp add crewbo -- /absolute/path/to/crewbo mcp</code></pre>
+<h2 id="7-check-your-setup">7. Check your setup</h2>
+<pre><code>crewbo doctor</code></pre>
+<p>It checks the daemon, your sign-in, the server, the room, your git name and email, the hooks, and your shell, and prints a fix under every problem. A <code>WARN</code> for an agent's hooks means either that agent has not run since the daemon started (start it, send a prompt and run <code>crewbo doctor</code> again) or that it is installed without Crewbo hooks while another agent has them (fine if you do not use it in this repository).</p>
+<h2 id="working-with-crewbo">Working with Crewbo</h2>
+<h3 id="claims-who-is-working-on-what">Claims: who is working on what</h3>
+<p>Your agent is stopped before it edits a file a teammate has claimed, with a message naming the file and the person. To claim files yourself:</p>
+<pre><code>crewbo claim add src/auth/**            # 30 minutes by default; --for 2h for longer (at most 8h)
+crewbo claim list
+crewbo claim release ID</code></pre>
+<h3 id="asking-for-a-file">Asking for a file</h3>
+<p>When you need a file someone holds:</p>
+<pre><code>crewbo claim request src/auth/login.go --reason "fixing the login bug"
+crewbo claim requests                    # what is open, answered or overridden</code></pre>
+<p>The holder answers with <code>crewbo claim handoff ID approve</code> (the claim is released and you can take it) or <code>decline --reason "..."</code>. The room lead can release any claim with <code>crewbo claim override PATH --reason "..."</code>.</p>
+<h3 id="tasks-a-branch-for-each-piece-of-work">Tasks: a branch for each piece of work</h3>
+<pre><code>crewbo task start --path src/auth/** "Build the login page"</code></pre>
+<p>This gives you a new branch and worktree with those paths claimed for you. Work there with any agent. Crewbo checkpoints your work when your agent finishes a reply (at most every 5 minutes; <code>crewbo task checkpoint ID</code> does it now), pushes the checkpoint to your remote, and warns the room when two tasks change the same lines. <code>crewbo task start --branch NAME</code> makes an existing branch a task instead.</p>
+<p>When the task is done:</p>
+<pre><code>crewbo task merge ID</code></pre>
+<p>This merges it into the remote's main branch, but only if it does not conflict with main or with another task's checkpoint. If it conflicts with a teammate's task, talk to them first; then <code>crewbo task merge ID --despite OTHER-ID</code> merges anyway and they update their task. <code>crewbo task cancel ID</code> stops a task and keeps its work.</p>
+<h3 id="splitting-the-work-with-your-agent-room-lead">Splitting the work with your agent (room lead)</h3>
+<p>With Crewbo's MCP tools registered (step 6), ask your own agent to split the work, for example: "Split the login feature into tasks for my crew. Use crewbo_crew to see who is online and what they hold, then draft one task per teammate with crewbo_draft_task." The agent only <strong>drafts</strong>: nothing is sent. VS Code shows "Your agent drafted 3 tasks" and lists them under <strong>Drafted tasks</strong> in the Crewbo view. Click one to read and edit it, then press Enter to send it, or right-click it and drop it. Each teammate still reads and approves their task in a terminal. Drafts are kept until you send or drop them, or the daemon restarts.</p>
+<h3 id="tasks-your-lead-sends-you">Tasks your lead sends you</h3>
+<p>The lead can send a task for your agent to run: <code>crewbo task create --to LOGIN --path PATH "TEXT"</code>, or in VS Code with the send button at the top of the Crewbo view (<strong>Send a task</strong>: pick the teammate, the files, and what to do). You see it with <code>crewbo task list</code> and <code>crewbo task show ID</code>. Nothing runs until you approve it <strong>yourself, in a terminal</strong>:</p>
+<pre><code>crewbo task approve ID                   # Claude Code; --agent codex for Codex
+crewbo task decline ID --reason "..."</code></pre>
+<p>Approving shows the whole task again and waits for you to type <code>yes</code>; then your agent runs it in a new worktree with your sign-in.</p>
+<h3 id="seeing-it-all">Seeing it all</h3>
+<ul><li><strong>VS Code:</strong> install <code>crewbo-&lt;version&gt;.vsix</code> (Extensions view, <code>...</code> menu, "Install from VSIX..."). The Crewbo view in the Explorer lists claims, tasks and handoff requests; claimed files show the holder's initials. See <a href="https://github.com/crewbo/crewbo/blob/6acd6364f7656f13866d04f17b3a6fd0b04ad1d0/extension/README.md"><code>extension/README.md</code></a>.</li><li><strong>Dashboard:</strong> <code>crewbo dashboard</code> prints an address for a read-only page on this computer.</li><li><strong>CLI:</strong> <code>crewbo crew</code> (who is online and what their agents are doing), <code>crewbo claim list</code>, <code>crewbo task list</code>, <code>crewbo claim requests</code>, <code>crewbo status</code>.</li></ul>
+<h2 id="running-the-sync-server">Running the sync server</h2>
+<p>One person runs the server; everyone else only needs its address.</p>
+<pre><code>crewbo serve</code></pre>
+<p>It listens on <code>127.0.0.1:7420</code>, so only this computer can reach it, and keeps its data in <code>server.db</code> in Crewbo's data folder. To let teammates reach it:</p>
+<ul><li>a tunnel (Cloudflare Tunnel, Tailscale) pointed at <code>http://127.0.0.1:7420</code>, which gives everyone an HTTPS address; or</li><li>HTTPS directly: <code>crewbo serve --addr 0.0.0.0:7420 --tls-cert FILE --tls-key FILE</code>; or</li><li>on a network you fully trust: <code>crewbo serve --addr 0.0.0.0:7420 --insecure-lan</code> (plain HTTP: anyone on that network can read session tokens).</li></ul>
+<p>If the server's address changes (a restarted tunnel), everyone runs <code>crewbo login --server NEW-ADDRESS</code>; their rooms move along without signing in again.</p>
+<h2 id="when-you-are-done">When you are done</h2>
+<pre><code>crewbo report             # counts to paste into the feedback survey; sends nothing
+crewbo room leave
+crewbo hooks uninstall    # removes only Crewbo's entries</code></pre>
+<p class="doc-source">From <a href="https://github.com/crewbo/crewbo/blob/6acd6364f7656f13866d04f17b3a6fd0b04ad1d0/docs/user/getting-started.md">docs/user/getting-started.md</a> in crewbo/crewbo.</p>
+</main>
+<footer>
+  <div class="foot-cols">
+    <div><p class="foot-h">Product</p><a href="index.html#how">How it works</a><a href="index.html#private">Privacy</a><a href="index.html#get">Get Crewbo</a><a href="index.html#works">Works with</a></div>
+    <div><p class="foot-h">Resources</p><a href="getting-started.html">Getting started</a><a href="privacy.html">What Crewbo shares</a><a href="troubleshooting.html">Troubleshooting</a><a href="changelog.html">Changelog</a></div>
+    <div><p class="foot-h">Connect</p><a href="https://github.com/crewbo/crewbo">GitHub</a><a href="https://github.com/crewbo/crewbo/issues">Report an issue</a></div>
+    <div class="foot-note"><p class="foot-h">Disclaimer</p><p>*Crewbo never sends the contents of your files anywhere, and it sends no telemetry. Code moves only through your own git remote.*</p></div>
+  </div>
+  <a class="foot-mini" href="index.html" aria-label="Crewbo home"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30"></a>
+</footer>
+</body>
+</html>

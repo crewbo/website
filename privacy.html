@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Crewbo shares and stores · Crewbo</title>
+<meta name="color-scheme" content="light">
+<link rel="icon" href="brand/assets/png/favicon.ico" sizes="any">
+<link rel="icon" href="brand/assets/svg/logo/mark-black.svg" type="image/svg+xml">
+<link rel="stylesheet" href="brand/tokens/tokens.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body class="doc-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Crewbo home"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30"></a>
+  <div class="nav-cta">
+    <a class="button small soft" href="https://github.com/crewbo/crewbo"><img src="assets/icons/github.svg" alt="" width="16" height="16">GitHub</a>
+    <a class="button small primary" href="index.html#get">Get Crewbo</a>
+  </div>
+</header>
+<main id="main" class="doc">
+<p class="eyebrow">Docs</p>
+<h1>What Crewbo shares and stores</h1>
+<nav class="doc-nav" aria-label="Docs"><a href="getting-started.html">Getting started</a><a href="privacy.html" aria-current="page">What Crewbo shares and stores</a><a href="troubleshooting.html">Troubleshooting</a><a href="changelog.html">Changelog</a></nav>
+<p>Crewbo never sends the contents of your files anywhere, and it sends no telemetry. Code moves only through your own git remote. This page lists everything that does leave your computer, and where it is kept.</p>
+<h2 id="what-goes-to-the-sync-server">What goes to the sync server</h2>
+<p>The sync server is run by someone on your team (or by you, with <code>crewbo serve</code>). Everything below is visible to every member of your room, and to whoever runs the server.</p>
+<div class="table"><table><thead><tr><th>When</th><th>What is sent</th></tr></thead><tbody><tr><td>You sign in (<code>crewbo login</code>)</td><td>Your GitHub user id and login (Crewbo asks GitHub for no permissions beyond your public profile), your device's public key, your computer's hostname and its OS (<code>linux</code>, <code>darwin</code> or <code>windows</code>)</td></tr><tr><td>You or your agent claim a file</td><td>The path or glob, how long the claim lasts, the task it belongs to, your login and an id for the agent session</td></tr><tr><td>You send or start a task</td><td>The task text, the paths it may change, the commit it starts from, who sent it and who it is for, signed with your device key</td></tr><tr><td>A task changes state</td><td>The state (for example running, checkpointed, merged), the checkpoint's branch or ref name and commit id, and for a failed run its error message, which can include a local folder path</td></tr><tr><td>Two tasks conflict</td><td>The two task ids and commits, and the paths that conflict</td></tr><tr><td>You ask for a file, answer, or override</td><td>The claim, and the reason you typed</td></tr><tr><td>You are connected</td><td>That you are online in the room, while your daemon is connected (not stored)</td></tr><tr><td>Your agent starts, edits a file or finishes a reply</td><td>The agent's name (Claude Code, Codex or Antigravity), the path of the file it is about to edit, and whether it is waiting for you; passed on to the room live, not stored</td></tr></tbody></table></div>
+<h2 id="what-the-sync-server-stores">What the sync server stores</h2>
+<p>Like any server, it sees your IP address while you are connected; Crewbo does not store it.</p>
+<p>The server keeps a log of every event above for each room, in one SQLite file (<code>server.db</code>). It is not deleted when you leave a room. It also keeps sign-in sessions (only a hash of each session token, valid for 7 days), registered device public keys, room members and invite codes (only a hash of each). Whoever runs the server can read all of it.</p>
+<h2 id="what-stays-on-your-computer">What stays on your computer</h2>
+<ul><li>The daemon's database: the room events it has received, your tasks, and the agents it has seen (<code>crewbo report</code> reads this).</li><li>Your session, your rooms and your device's private key. The private key is kept in your system keychain, or in a file only you can read when there is no keychain; it never leaves your computer.</li><li>Task worktrees and logs of task runs.</li><li>The local dashboard runs on <code>127.0.0.1</code> only and needs the token in the address <code>crewbo dashboard</code> prints.</li></ul>
+<h2 id="your-git-remote">Your git remote</h2>
+<p>Checkpoints of your tasks are pushed to your repository's remote (as <code>refs/crewbo/&lt;login&gt;/&lt;task id&gt;</code>, or a <code>wip/</code> branch if the remote refuses that), and merges go to its main branch, using your own git credentials and identity.</p>
+<h2 id="crewbo-report"><code>crewbo report</code></h2>
+<p><code>crewbo report</code> prints counts (agents used, tasks, handoffs, conflicts) for you to copy into a survey. It holds no paths, task text or names, and it sends nothing.</p>
+<p class="doc-source">From <a href="https://github.com/crewbo/crewbo/blob/6acd6364f7656f13866d04f17b3a6fd0b04ad1d0/docs/user/privacy.md">docs/user/privacy.md</a> in crewbo/crewbo.</p>
+</main>
+<footer>
+  <div class="foot-cols">
+    <div><p class="foot-h">Product</p><a href="index.html#how">How it works</a><a href="index.html#private">Privacy</a><a href="index.html#get">Get Crewbo</a><a href="index.html#works">Works with</a></div>
+    <div><p class="foot-h">Resources</p><a href="getting-started.html">Getting started</a><a href="privacy.html">What Crewbo shares</a><a href="troubleshooting.html">Troubleshooting</a><a href="changelog.html">Changelog</a></div>
+    <div><p class="foot-h">Connect</p><a href="https://github.com/crewbo/crewbo">GitHub</a><a href="https://github.com/crewbo/crewbo/issues">Report an issue</a></div>
+    <div class="foot-note"><p class="foot-h">Disclaimer</p><p>*Crewbo never sends the contents of your files anywhere, and it sends no telemetry. Code moves only through your own git remote.*</p></div>
+  </div>
+  <a class="foot-mini" href="index.html" aria-label="Crewbo home"><img src="brand/assets/svg/logo/lockup-light.svg" alt="" width="120" height="30"></a>
+</footer>
+</body>
+</html>

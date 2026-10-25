@@ -23,6 +23,8 @@ files=(
   assets/fonts/jetbrains-mono-latin-500-normal.woff2
   assets/fonts/LICENSE-InstrumentSans-OFL.txt
   assets/fonts/LICENSE-JetBrainsMono-OFL.txt
+  assets/fonts/instrument-serif-latin-400-normal.woff2
+  assets/fonts/LICENSE-InstrumentSerif-OFL.txt
   assets/svg/logo/lockup-light.svg
   assets/svg/logo/lockup-dark.svg
   assets/svg/logo/mark-black.svg
