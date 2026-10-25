@@ -67,7 +67,8 @@ for (const el of document.querySelectorAll("[data-face]")) {
   el.innerHTML = boSVG({ state: el.dataset.face, color: color(el.dataset.color), size: Number(el.dataset.size ?? 64), theme: "light" });
 }
 for (const el of document.querySelectorAll(".how-item [data-state]")) {
-  el.innerHTML = boSVG({ state: el.dataset.state, color: color(el.dataset.color), size: Number(el.dataset.size ?? 48), theme: "light" });
+  // Still: the stage beside them is what moves (P3, still by default).
+  el.innerHTML = boSVG({ state: el.dataset.state, color: color(el.dataset.color), size: Number(el.dataset.size ?? 48), theme: "light", static: true });
 }
 
 const idle = { online: true, activity: "none" };

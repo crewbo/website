@@ -116,8 +116,8 @@
     <h2>Built for agents that share a repository.</h2>
     <div class="how-grid">
       <div class="how-col">
-        <button class="how-item" type="button" data-pick="claims"><span class="bo-slot" data-state="working" data-color="1" data-size="48"></span><span class="how-text"><b>Agents check before they edit</b><span>An agent is stopped before it edits a file another agent holds, and told who has it.</span></span></button>
-        <button class="how-item" type="button" data-pick="crew"><span class="bo-slot" data-state="idle" data-color="0" data-size="48"></span><span class="how-text"><b>See your crew, live</b><span>Who is online, what each agent is writing, who is asleep.</span></span></button>
+        <button class="how-item" type="button" data-pick="claims"><span class="bo-slot" data-state="working" data-color="1" data-size="48"></span><span class="how-text"><b>Agents check before they edit</b><span>An agent is stopped before it edits a file another agent holds, and told who has it and how to ask. Claims last 30 minutes by default, up to 8 hours.</span><code>crewbo claim add src/auth/**</code></span></button>
+        <button class="how-item" type="button" data-pick="crew"><span class="bo-slot" data-state="idle" data-color="0" data-size="48"></span><span class="how-text"><b>See your crew, live</b><span>Who is online, what each agent is writing, who is asleep. In VS Code, the Crewbo IDE, or a terminal.</span><code>crewbo crew</code></span></button>
       </div>
       <div class="how-stage frame">
       <div class="clip stage-clip" data-clip="claims" aria-hidden="true">
@@ -156,8 +156,8 @@
       </div>
       </div>
       <div class="how-col">
-        <button class="how-item" type="button" data-pick="handoff"><span class="bo-slot" data-state="handoff-right" data-color="3" data-size="48"></span><span class="how-text"><b>Ask for a file, get it in one click</b><span>The holder sees your request with Hand off and Not yet. No fighting over files.</span></span></button>
-        <button class="how-item" type="button" data-pick="conflict"><span class="bo-slot" data-state="conflict" data-color="5" data-size="48"></span><span class="how-text"><b>Catch conflicts before the merge</b><span>Two tasks that change the same lines show up as a conflict, with the file named.</span></span></button>
+        <button class="how-item" type="button" data-pick="handoff"><span class="bo-slot" data-state="handoff-right" data-color="3" data-size="48"></span><span class="how-text"><b>Ask for a file, get it in one click</b><span>The holder sees your request with Hand off and Not yet. Handing off releases the file, and your agent carries on.</span><code>crewbo claim request src/auth.go</code></span></button>
+        <button class="how-item" type="button" data-pick="conflict"><span class="bo-slot" data-state="conflict" data-color="5" data-size="48"></span><span class="how-text"><b>Catch conflicts before the merge</b><span>Two tasks that change the same lines show up as a conflict, with the file named. A task merges only when it conflicts with nothing.</span><code>crewbo task merge ID</code></span></button>
       </div>
     </div>
   </section>
@@ -166,9 +166,9 @@
     <p class="eyebrow">02 · Private by design</p>
     <h2>Your code stays on your computer.</h2>
     <div class="facts">
-      <div><span class="fact-ico"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span><h3>No file contents</h3><p>Paths and task text, never file contents.</p></div>
-      <div><span class="fact-ico"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c5 0 8.5 4.5 9.5 7a13 13 0 0 1-2.4 3.4M6.6 6.6C4.4 8 3 10.2 2.5 12c1 2.5 4.5 7 9.5 7 1.9 0 3.6-.6 5-1.5M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg></span><h3>No telemetry</h3><p>Crewbo sends no usage data.</p></div>
-      <div><span class="fact-ico"><svg viewBox="0 0 24 24" width="22" height="22"><rect x="4" y="4" width="16" height="7" rx="2"/><rect x="4" y="13" width="16" height="7" rx="2"/><path d="M8 7.5h.01M8 16.5h.01"/></svg></span><h3>Your own server</h3><p>Your team runs the sync server.</p></div>
+      <div><h3>No file contents</h3><p>Paths and task text, never file contents.</p></div>
+      <div><h3>No telemetry</h3><p>Crewbo sends no usage data.</p></div>
+      <div><h3>Your own server</h3><p>Your team runs the sync server.</p></div>
     </div>
     <p class="more"><a href="https://github.com/crewbo/crewbo/blob/main/docs/user/privacy.md">Everything Crewbo shares</a></p>
   </section>
@@ -176,7 +176,6 @@
   <section id="works">
     <p class="eyebrow">03 · Works with</p>
     <h2>Your agent. Your editor.</h2>
-    <p class="intro">Works anywhere your agent runs.</p>
     <ul class="strip">
       <li><img src="assets/agents/claude-code.svg" alt="" width="20" height="20">Claude Code</li>
       <li><img src="assets/agents/codex.svg" alt="" width="20" height="20">Codex</li>

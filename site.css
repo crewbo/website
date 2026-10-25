@@ -105,7 +105,7 @@ h3 { font-size: 22px; line-height: 1.3; font-weight: 600; margin: 0 0 var(--cb-s
 .row .text { display: flex; flex-direction: column; gap: var(--cb-space-half); min-width: 0; }
 .row .name { font-size: 15px; font-weight: 600; }
 .row .status { font-size: 13px; color: var(--cb-color-gray-600); overflow-wrap: anywhere; }
-.row .agent { font-family: var(--cb-font-family-mono); font-size: 12px; color: var(--base); }
+.row .agent { font-family: var(--cb-font-family-mono); font-size: 12px; color: var(--base); min-height: 1lh; } /* an empty agent line keeps its height, so clips never grow */
 .bo-slot { flex: none; display: inline-flex; }
 .editor { grid-area: editor; margin: 0 6px 6px 0; background: var(--cb-color-paper); border: 1px solid var(--ide-line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
 .tabs { display: flex; background: var(--ide-chrome); border-bottom: 1px solid var(--ide-line); }
@@ -284,7 +284,7 @@ footer { margin-top: var(--cb-space-16); padding-bottom: 0; }
 
 /* How it works (after OpenTag): four items around one stage; the stage
    plays the active item's clip, cycling on its own, hover to pick */
-.how-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--cb-space-4); align-items: center; margin-top: var(--cb-space-7); }
+.how-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--cb-space-4); align-items: center; margin-top: var(--cb-space-6); }
 .how-col { display: flex; flex-direction: column; gap: var(--cb-space-3); }
 .how-item { display: flex; gap: var(--cb-space-2); align-items: flex-start; padding: var(--cb-space-2); border: none; border-radius: var(--cb-radius-card); background: transparent; color: var(--fg); font: inherit; text-align: left; cursor: pointer; opacity: 0.4; transition: opacity var(--slow) var(--ease), background var(--slow) var(--ease); }
 .how-item:hover, .how-item.active { opacity: 1; }
@@ -292,10 +292,11 @@ footer { margin-top: var(--cb-space-16); padding-bottom: 0; }
 .how-text { display: flex; flex-direction: column; gap: var(--cb-space-half); font-size: 15px; line-height: 1.5; }
 .how-text b { font-size: 18px; font-weight: 600; }
 .how-text span { color: var(--muted); }
+.how-text code { margin-top: var(--cb-space-1); font-size: 13px; color: var(--fg); }
 .how-stage { display: grid; overflow: hidden; }
 .how-stage > .stage-clip { grid-area: 1 / 1; }
-.stage-clip { position: relative; opacity: 0; pointer-events: none; transform: translateY(8px) scale(0.98); transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease); }
-.stage-clip.active { opacity: 1; transform: none; pointer-events: auto; }
+.stage-clip { position: relative; opacity: 0; pointer-events: none; transition: opacity var(--slow) var(--ease); }
+.stage-clip.active { opacity: 1; pointer-events: auto; }
 
 
 /* Footer brand (Ronel's idea): the mark beside "crewbo" spelled in the
@@ -336,8 +337,10 @@ footer { margin-top: var(--cb-space-16); padding-bottom: 0; }
 main > section:not(.hero) > .eyebrow, main > section:not(.hero) > h2, main > section:not(.hero) > .intro, main > section:not(.hero) > .more { text-align: center; margin-left: auto; margin-right: auto; }
 .facts { text-align: center; max-width: 960px; margin-left: auto; margin-right: auto; }
 /* One line icon above each fact and way in (05-interface.md 1: 2 px stroke, round caps, monochrome) */
-.fact-ico, .way-ico { display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; margin-bottom: var(--cb-space-2); border-radius: var(--cb-radius-control); background: var(--card); }
-.fact-ico svg, .way-ico svg { width: 22px; height: 22px; fill: none; stroke: var(--cb-color-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.facts h3 { font-family: var(--cb-font-family-display); font-size: 36px; font-weight: 400; line-height: 1.1; letter-spacing: -0.5px; margin: 0 0 var(--cb-space-1); }
+.facts p { font-size: 16px; }
+.way-ico { display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; margin-bottom: var(--cb-space-2); border-radius: var(--cb-radius-control); background: var(--card); }
+.way-ico svg { width: 22px; height: 22px; fill: none; stroke: var(--cb-color-ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .way-ico img { width: 22px; height: 22px; }
 .setup { margin: var(--cb-space-6) auto 0; }
 .faq { margin-left: auto; margin-right: auto; }
@@ -357,7 +360,10 @@ main > section:not(.hero) > .eyebrow, main > section:not(.hero) > h2, main > sec
 .strip li:hover { color: var(--cb-color-ink); }
 .strip li:hover img, .strip li:hover svg { filter: none; opacity: 1; }
 .hero-strip { margin-top: var(--cb-space-4); position: relative; z-index: 2; }
-@media (max-width: 1199px) { .strip:not(.hero-strip) { display: grid; grid-template-columns: repeat(3, max-content); justify-content: center; column-gap: var(--cb-space-5); } }
+#works .strip { margin-top: var(--cb-space-6); max-width: none; flex-wrap: nowrap; gap: var(--cb-space-3) var(--cb-space-4); }
+#works .strip li { font-family: var(--cb-font-family-sans); font-size: 17px; font-weight: 500; color: var(--fg); }
+#works .strip li img, #works .strip li svg { width: 26px; height: 26px; filter: none; opacity: 1; }
+@media (max-width: 1359px) { .strip:not(.hero-strip) { display: grid; grid-template-columns: repeat(3, max-content); justify-content: center; column-gap: var(--cb-space-5); } }
 
 /* The Bo peeks over the frame: it sits behind it, only its top showing */
 .demo-wrap { position: relative; margin-top: var(--cb-space-12); }
@@ -405,5 +411,7 @@ main > section:not(.hero) > .eyebrow, main > section:not(.hero) > h2, main > sec
   .how-grid, .facts, .ways { grid-template-columns: minmax(0, 1fr); }
   .agents button[aria-selected="false"] span { display: none; }
   .strip:not(.hero-strip) { grid-template-columns: repeat(3, max-content); column-gap: var(--cb-space-2); }
-  .strip:not(.hero-strip) li { font-size: 12px; }
+  #works .strip li { font-size: 13px; gap: 6px; }
+  #works .strip li img, #works .strip li svg { width: 18px; height: 18px; }
+  #works .strip { column-gap: 12px; }
 }
