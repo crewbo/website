@@ -25,12 +25,11 @@
 <nav class="doc-nav" aria-label="Docs"><a href="getting-started.html" aria-current="page">Getting started</a><a href="privacy.html">What Crewbo shares and stores</a><a href="troubleshooting.html">Troubleshooting</a><a href="changelog.html">Changelog</a></nav>
 <p>Crewbo lets everyone on your team run their own coding agent (Claude Code, Codex or Antigravity) on the same repository without the agents overwriting each other's work. This guide takes you from nothing to a working room in about 15 minutes. What Crewbo shares is on the <a href="privacy.html">privacy page</a>; if something goes wrong, see <a href="troubleshooting.html">troubleshooting</a>.</p>
 <h2 id="1-what-you-need">1. What you need</h2>
-<ul><li>git 2.38 or later, and a clone of your team's repository</li><li>At least one agent: Claude Code, Codex or Antigravity, signed in</li><li>A GitHub account</li><li>The address of your team's sync server (your lead has it; to run one yourself, see <a href="#running-the-sync-server">Running the sync server</a>)</li><li>Until the first release, Go (the version in Crewbo's <code>go.mod</code>) and <a href="https://taskfile.dev">Task</a> to build Crewbo</li></ul>
+<ul><li>git 2.38 or later, and a clone of your team's repository</li><li>At least one agent: Claude Code, Codex or Antigravity, signed in</li><li>A GitHub account</li><li>The address of your team's sync server (your lead has it; to run one yourself, see <a href="#running-the-sync-server">Running the sync server</a>)</li><li>Until the first release, <a href="https://go.dev/dl/">Go</a> to build Crewbo</li></ul>
 <h2 id="2-install-crewbo">2. Install Crewbo</h2>
-<pre><code>git clone https://github.com/crewbo/crewbo
-cd crewbo
-task build            # creates bin/crewbo (bin\crewbo.exe on Windows)</code></pre>
-<p>Put <code>bin/crewbo</code> in a folder <strong>without spaces</strong> in its path, and add that folder to your <code>PATH</code>. Codex and Antigravity run hooks as shell commands, and a space in the path breaks them without any error.</p>
+<pre><code>go install github.com/crewbo/crewbo/cmd/crewbo@latest</code></pre>
+<p>Go puts <code>crewbo</code> in <code>$(go env GOPATH)/bin</code> (usually <code>~/go/bin</code>, or <code>%USERPROFILE%\go\bin</code> on Windows) unless <code>GOBIN</code> is set; add that folder to your <code>PATH</code>. The folder's path must have <strong>no spaces</strong>: Codex and Antigravity run hooks as shell commands, and a space in the path breaks them without any error. If your user folder has a space, set <code>GOBIN</code> to a folder without one (<code>go env -w GOBIN=C:\tools\bin</code>) before installing.</p>
+<p>To build from a clone instead, run <code>task build</code> (<a href="https://taskfile.dev">Task</a>), which creates <code>bin/crewbo</code> (<code>bin\crewbo.exe</code> on Windows).</p>
 <h2 id="3-start-the-daemon">3. Start the daemon</h2>
 <p>The daemon is the part of Crewbo that runs on your computer: your agents' hooks ask it before every edit. Start it in its own terminal and leave it running:</p>
 <pre><code>crewbo daemon</code></pre>
@@ -77,7 +76,7 @@ crewbo claim requests                    # what is open, answered or overridden<
 crewbo task decline ID --reason "..."</code></pre>
 <p>Approving shows the whole task again and waits for you to type <code>yes</code>; then your agent runs it in a new worktree with your sign-in.</p>
 <h3 id="seeing-it-all">Seeing it all</h3>
-<ul><li><strong>VS Code:</strong> install <code>crewbo-&lt;version&gt;.vsix</code> (Extensions view, <code>...</code> menu, "Install from VSIX..."). The Crewbo view in the Explorer lists claims, tasks and handoff requests; claimed files show the holder's initials. See <a href="https://github.com/crewbo/crewbo/blob/6acd6364f7656f13866d04f17b3a6fd0b04ad1d0/extension/README.md"><code>extension/README.md</code></a>.</li><li><strong>Dashboard:</strong> <code>crewbo dashboard</code> prints an address for a read-only page on this computer.</li><li><strong>CLI:</strong> <code>crewbo crew</code> (who is online and what their agents are doing), <code>crewbo claim list</code>, <code>crewbo task list</code>, <code>crewbo claim requests</code>, <code>crewbo status</code>.</li></ul>
+<ul><li><strong>VS Code:</strong> install <code>crewbo-&lt;version&gt;.vsix</code> (Extensions view, <code>...</code> menu, "Install from VSIX..."). The Crewbo view in the Explorer lists claims, tasks and handoff requests; claimed files show the holder's initials. See <a href="https://github.com/crewbo/crewbo/blob/7d5a7f8034226369f1a2bcc2d415fd64dd2f8bc6/extension/README.md"><code>extension/README.md</code></a>.</li><li><strong>Dashboard:</strong> <code>crewbo dashboard</code> prints an address for a read-only page on this computer.</li><li><strong>CLI:</strong> <code>crewbo crew</code> (who is online and what their agents are doing), <code>crewbo claim list</code>, <code>crewbo task list</code>, <code>crewbo claim requests</code>, <code>crewbo status</code>.</li></ul>
 <h2 id="running-the-sync-server">Running the sync server</h2>
 <p>One person runs the server; everyone else only needs its address.</p>
 <pre><code>crewbo serve</code></pre>
@@ -88,7 +87,7 @@ crewbo task decline ID --reason "..."</code></pre>
 <pre><code>crewbo report             # counts to paste into the feedback survey; sends nothing
 crewbo room leave
 crewbo hooks uninstall    # removes only Crewbo's entries</code></pre>
-<p class="doc-source">From <a href="https://github.com/crewbo/crewbo/blob/6acd6364f7656f13866d04f17b3a6fd0b04ad1d0/docs/user/getting-started.md">docs/user/getting-started.md</a> in crewbo/crewbo.</p>
+<p class="doc-source">From <a href="https://github.com/crewbo/crewbo/blob/7d5a7f8034226369f1a2bcc2d415fd64dd2f8bc6/docs/user/getting-started.md">docs/user/getting-started.md</a> in crewbo/crewbo.</p>
 </main>
 <footer>
   <div class="foot-cols">
